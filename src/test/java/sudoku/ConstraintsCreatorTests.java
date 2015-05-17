@@ -13,6 +13,14 @@ import java.util.stream.Stream;
 public class ConstraintsCreatorTests {
 
     @Test
+    public void createForCells(){
+        ConstraintsCreator constraintsCreator = new ConstraintsCreator();
+        List<Constraint> constraints = constraintsCreator.createForCells();
+        List<String> collect = constraints.stream().map(c -> c.getCoefficientsAsString()).collect(Collectors.toList());
+        Assert.assertEquals(81, constraints.size());
+    }
+
+    @Test
     public void createForRows(){
         ConstraintsCreator constraintsCreator = new ConstraintsCreator();
         List<Constraint> constraints = constraintsCreator.createForRows();

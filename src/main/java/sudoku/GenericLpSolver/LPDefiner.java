@@ -3,6 +3,7 @@ package sudoku.GenericLpSolver;
 import lpsolve.LpSolve;
 import lpsolve.LpSolveException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,12 +11,13 @@ public class LPDefiner {
 
      public void Test() throws LpSolveException {
 
-         VariablesCreator variablesCreator = new VariablesCreator();
-         BinaryVariable[][][] variables = variablesCreator.create();
+         String input = "000075400000000008080190000300001060000000034000068170204000603900000020530200000";
+
          ConstraintsCreator constraintsCreator = new ConstraintsCreator();
          List<Constraint> constraints = constraintsCreator.create();
+         constraints.addAll(getConstraintsFromInput(input));
 
-         LpSolve solver = LpSolve.makeLp(0, 729);
+         LpSolve solver = LpSolve.makeLp(constraints.size(), 729);
          double[] objectiveFunc = new double[729];
          for (int i = 0; i<729 ; i++) {
              solver.setBinary(i+1, true);
@@ -23,57 +25,42 @@ public class LPDefiner {
          }
 
          solver.setObjFn(objectiveFunc);
+         solver.setMaxim();
+
+         constraints.stream().forEach(c -> addConstraint(solver, c));
+
+//         solver.writeLp("F:/lp.txt");
+        solver.solve();
 
 
-         String template = "";
-//         for (int i = 0; i <729 ; i++) {
-//             template += "0";
-//         }
-//         solver.strSetObjFn(template);
-//         constraints.stream().forEach(c -> addConstraint(solver, c));
-//         addConstraintsFromInput(solver);
-//
-//         int solve = solver.solve();
-//         // print solution
-//         System.out.println("Value of objective function: " + solver.getObjective());
-//         double[] var = solver.getPtrVariables();
-//         for (int i = 0; i < var.length; i++) {
-//             System.out.println("Value of var[" + i + "] = " + var[i]);
-//         }
-//
-//         // delete the problem and free memory
-//         solver.deleteLp();
-
+         solver.getVariables(objectiveFunc);
 
      }
 
-//    private void addConstraint(LpSolve solver, Constraint constraint)  {
-//        try {
-//            solver.strAddConstraint(constraint.getVariablesCoefficientsAsString(), LpSolve.EQ, constraint.getSum());
-//        } catch (LpSolveException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private List<Constraint> getConstraintsFromInput(String input){
+        char[] chars = input.toCharArray();
+        List<Constraint> constraints = new ArrayList<>();
 
-//    private void addConstraintsFromInput(LpSolve solver){
-//        char[] input = "000075400000000008080190000300001060000000034000068170204000603900000020530200000".toCharArray();
-//        String[] template = new String[729];
-//        for (int i = 0; i <template.length ; i++) {
-//            template[i] = "0";
-//        }
-//        for (int i = 0; i <input.length; i++) {
-//            int inputAsInt = Integer.parseInt("" + input[i]);
-//            if (inputAsInt == 0)
-//                continue;
-//
-//            String[] coefficientsForNewConstraint = template.clone();
-//            coefficientsForNewConstraint[i*9 + inputAsInt] = "1";
-//            Constraint newConstraint = new Constraint(Arrays.asList(coefficientsForNewConstraint), 1);
-//            try {
-//                solver.strAddConstraint(newConstraint.getVariablesCoefficientsAsString(), LpSolve.EQ, newConstraint.getSum());
-//            } catch (LpSolveException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+        for (int i = 0; i < 81; i++) {
+            int currentInput = Integer.parseInt(chars[i] + "");
+            if (currentInput == 0)
+                continue;
+
+            int[][][] coefficients = new int[9][9][9];
+            coefficients[i/9][i%9][currentInput-1] = 1;
+            constraints.add(new Constraint(coefficients, 1));
+        }
+
+        return constraints;
+    }
+
+    private void addConstraint(LpSolve solver, Constraint constraint)  {
+        try {
+            solver.strAddConstraint(constraint.getCoefficientsAsString(), LpSolve.EQ, constraint.getSum());
+        } catch (LpSolveException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

@@ -20,12 +20,12 @@ public class Constraint{
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 for (int k = 0; k < 9; k++) {
-                    stringBuilder.append(coefficients[i][j][k]);
+                    stringBuilder.append(coefficients[i][j][k] + " ");
                 }
             }
         }
 
-        return stringBuilder.toString();
+        return stringBuilder.toString().trim();
     }
 
     public int getSum(){
