@@ -2,6 +2,8 @@ package sudoku;
 
 import org.junit.Assert;
 import org.junit.Test;
+import sudoku.GenericLpSolver.Constraint;
+import sudoku.GenericLpSolver.ConstraintsCreator;
 
 import java.util.List;
 

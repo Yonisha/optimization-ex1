@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.GenericLpSolver;
 
 public class BinaryVariable{
 

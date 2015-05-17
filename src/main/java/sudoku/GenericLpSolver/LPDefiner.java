@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.GenericLpSolver;
 
 import lpsolve.LpSolve;
 import lpsolve.LpSolveException;

@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.GenericLpSolver;
 
 import java.util.List;
 
