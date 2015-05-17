@@ -25,7 +25,6 @@ public class LPDefiner {
          }
 
          solver.setObjFn(objectiveFunc);
-//         solver.setObjFnex(730, objectiveFunc, null);
          solver.setMinim();
 
          constraints.stream().forEach(c -> addConstraint(solver, c));
@@ -36,9 +35,8 @@ public class LPDefiner {
 
          solver.getVariables(objectiveFunc);
 
-         for (int i = 0; i < objectiveFunc.length; i++) {
-             System.out.print(objectiveFunc[i] + " ");
-         }
+         SudokuDrawer sudokuDrawer = new SudokuDrawer();
+         sudokuDrawer.draw(objectiveFunc);
      }
 
     private List<Constraint> getConstraintsFromInput(String input){
