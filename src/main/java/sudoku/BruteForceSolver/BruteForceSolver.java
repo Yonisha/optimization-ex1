@@ -22,6 +22,7 @@ public class BruteForceSolver {
     }
 
     private int solveNextCell(int[][] inputBoard, Pair<Integer, Integer> indexOfNextCell){
+
         return 1;
     }
 }
