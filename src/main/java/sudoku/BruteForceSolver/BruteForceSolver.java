@@ -1,6 +1,7 @@
 package sudoku.BruteForceSolver;
 
 import javafx.util.Pair;
+import sudoku.ISudokuSolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 //    private
 //}
 
-public class BruteForceSolver {
+public class BruteForceSolver implements ISudokuSolver {
 
     public double[] Solve(String inputBoard){
 

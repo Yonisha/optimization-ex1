@@ -1,10 +1,10 @@
 package sudoku.NonGenericLpSolver;
 
-import lpsolve.LpSolveException;
+import sudoku.ISudokuSolver;
 
-public class NonGenericLpSolver {
+public class NonGenericLpSolver implements ISudokuSolver {
 
-    public double[] Solve(String inputBoard) throws LpSolveException {
+    public double[] Solve(String inputBoard){
         return new double[0];
     }
 }
