@@ -11,7 +11,7 @@ public class LPDefiner {
 
      public void Test() throws LpSolveException {
 
-         String input = "000075400000000008080190000300001060000000034000068170204000603900000020530200000";
+         String input = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
 
          ConstraintsCreator constraintsCreator = new ConstraintsCreator();
          List<Constraint> constraints = constraintsCreator.create();
@@ -21,20 +21,24 @@ public class LPDefiner {
          double[] objectiveFunc = new double[729];
          for (int i = 0; i<729 ; i++) {
              solver.setBinary(i+1, true);
-             objectiveFunc[i] = 0;
+             objectiveFunc[i] = i;
          }
 
          solver.setObjFn(objectiveFunc);
-         solver.setMaxim();
+//         solver.setObjFnex(730, objectiveFunc, null);
+         solver.setMinim();
 
          constraints.stream().forEach(c -> addConstraint(solver, c));
 
-         solver.writeLp("F:/lp.txt");
-        solver.solve();
+//         solver.writeLp("c:/lp.lp");
+         solver.solve();
 
 
          solver.getVariables(objectiveFunc);
 
+         for (int i = 0; i < objectiveFunc.length; i++) {
+             System.out.print(objectiveFunc[i] + " ");
+         }
      }
 
     private List<Constraint> getConstraintsFromInput(String input){

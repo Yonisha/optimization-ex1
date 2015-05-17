@@ -8,5 +8,5 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile files ("F:\\IDC\\optimization-ex1\\res\\lpsolve55j.jar")
+    compile files ("C:\\Users\\yonisha\\Downloads\\lp_solve_5.5.2.0_java\\lp_solve_5.5_java\\lib\\lpsolve55j.jar")
 }
