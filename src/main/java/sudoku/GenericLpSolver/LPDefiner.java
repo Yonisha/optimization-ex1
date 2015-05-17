@@ -17,7 +17,7 @@ public class LPDefiner {
          List<Constraint> constraints = constraintsCreator.create();
          constraints.addAll(getConstraintsFromInput(input));
 
-         LpSolve solver = LpSolve.makeLp(constraints.size(), 729);
+         LpSolve solver = LpSolve.makeLp(0, 729);
          double[] objectiveFunc = new double[729];
          for (int i = 0; i<729 ; i++) {
              solver.setBinary(i+1, true);
@@ -29,7 +29,7 @@ public class LPDefiner {
 
          constraints.stream().forEach(c -> addConstraint(solver, c));
 
-//         solver.writeLp("F:/lp.txt");
+         solver.writeLp("F:/lp.txt");
         solver.solve();
 
 
