@@ -1,8 +1,5 @@
-package sudoku.GenericLpSolver;
+package sudoku;
 
-/**
- * Created by yonisha on 5/18/2015.
- */
 public class SudokuDrawer{
     public void draw(double[] board){
         for (int i = 1; i <= board.length; i++) {

@@ -5,24 +5,44 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+//public class Cell{
+//    private int value;
+//    private
+//}
+
 public class BruteForceSolver {
 
-    public int[][] solve(int[][] inputBoard){
+    public double[] Solve(String inputBoard){
 
-        for (int i = 0; i < inputBoard.length; i++) {
-            for (int j = 0; j < inputBoard[0].length; j++) {
-                if (inputBoard[i][j] != 0)
-                    continue;
+//        for (int i = 0; i < inputBoard.length; i++) {
+//            if (inputBoard[i] != 0)
+//                continue;
+//
+//            int valueForCurrentCell = solveCurrentCell(inputBoard, i, 1);
+//            if (valueForCurrentCell != 0){
+//
+//            }
 
-                inputBoard[i][j] = solveNextCell(inputBoard, new Pair<>(i, j));
-            }
-        }
-
-        return inputBoard;
+//
+//        }
+//
+//        return inputBoard;
+        return new double[0];
     }
 
-    private int solveNextCell(int[][] inputBoard, Pair<Integer, Integer> indexOfNextCell){
-
-        return 1;
-    }
+//    private int[] solveCurrentCellRec(int[] inputBoard, int indexOfCurrentCell){
+//        int valueForCurrentCell = solveCurrentCell(inputBoard, i, 1);
+//        if (valueForCurrentCell != 0) {
+//        }
+//    }
+//
+//    private int solveCurrentCell(int[] inputBoard, int indexOfCurrentCell, int indexToStartFromForValue){
+//        for (int i = indexToStartFromForValue; i <=9; i++) {
+//            inputBoard[indexOfCurrentCell] = i;
+//            if (boardIsLegal(inputBoard))
+//                return i;
+//        }
+//
+//        return 0;
+//    }
 }

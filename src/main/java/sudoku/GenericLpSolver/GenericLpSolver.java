@@ -2,20 +2,18 @@ package sudoku.GenericLpSolver;
 
 import lpsolve.LpSolve;
 import lpsolve.LpSolveException;
+import sudoku.SudokuDrawer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class LPDefiner {
+public class GenericLpSolver {
 
-     public void Test() throws LpSolveException {
-
-         String input = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
+     public double[] Solve(String inputBoard) throws LpSolveException {
 
          ConstraintsCreator constraintsCreator = new ConstraintsCreator();
          List<Constraint> constraints = constraintsCreator.create();
-         constraints.addAll(getConstraintsFromInput(input));
+         constraints.addAll(getConstraintsFromInput(inputBoard));
 
          LpSolve solver = LpSolve.makeLp(0, 729);
          double[] objectiveFunc = new double[729];
@@ -32,11 +30,9 @@ public class LPDefiner {
 //         solver.writeLp("c:/lp.lp");
          solver.solve();
 
-
          solver.getVariables(objectiveFunc);
 
-         SudokuDrawer sudokuDrawer = new SudokuDrawer();
-         sudokuDrawer.draw(objectiveFunc);
+         return objectiveFunc;
      }
 
     private List<Constraint> getConstraintsFromInput(String input){
