@@ -9,4 +9,20 @@ public class Cell{
         this.value = value;
         this.isFixed = isFixed;
     }
+
+    public boolean isFixed(){
+        return this.isFixed;
+    }
+
+    public int getValue(){
+        return this.value;
+    }
+
+    public void initValue(){
+        this.value = 0;
+    }
+
+    public void incrementValue(){
+        this.value++;
+    }
 }
