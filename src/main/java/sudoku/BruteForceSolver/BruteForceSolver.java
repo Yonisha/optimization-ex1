@@ -6,11 +6,6 @@ import sudoku.ISudokuSolver;
 import java.util.ArrayList;
 import java.util.List;
 
-//public class Cell{
-//    private int value;
-//    private
-//}
-
 public class BruteForceSolver implements ISudokuSolver {
 
     public double[] Solve(String inputBoard){
