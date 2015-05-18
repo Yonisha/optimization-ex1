@@ -28,8 +28,10 @@ public class SudokuSolverProgram {
     }
 
     private static String solveSingleBoard(ISudokuSolver sudokuSolver, String board, SudokuDrawer sudokuDrawer){
+        sudokuDrawer.draw(board, "input");
         double[] solution = sudokuSolver.Solve(board);
-        sudokuDrawer.draw(solution);
+        String normalizedSolution = normalizeSolution(solution);
+        sudokuDrawer.draw(normalizedSolution, "output");
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < solution.length; i++) {
             stringBuilder.append(String.valueOf(solution[i]));
@@ -61,5 +63,20 @@ public class SudokuSolverProgram {
             return new NonGenericLpSolver(lpSolver);
 
         throw new IllegalArgumentException("We only have 3 different implementations!");
+    }
+
+    private static String normalizeSolution(double[] lpSolution){
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < lpSolution.length; i+=9) {
+            for (int j = 0; j < 9; j++) {
+                if (lpSolution[i+j] == 1.0){
+                    stringBuilder.append(String.valueOf(j+1));
+                    continue;
+                }
+            }
+        }
+
+        return stringBuilder.toString();
     }
 }

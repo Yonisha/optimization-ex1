@@ -23,11 +23,11 @@ public class GenericConstraintsCreator {
             // we need to create 9 constraints per iteration
             for (int j = 0; j < 9; j++) {
                 // one constraint
-                int[][][] constraint = new int[9][9][9];
+                int[][][] coefficients = new int[9][9][9];
                 for (int k = 0; k <9; k++) {
-                    constraint[i][j][k] = 1;
+                    coefficients[i][j][k] = 1;
                 }
-                constraints.add(new Constraint(constraint, 1));
+                constraints.add(new Constraint(coefficients, 1));
             }
         }
 
@@ -41,11 +41,29 @@ public class GenericConstraintsCreator {
             // we need to create 9 constraints per iteration
             for (int j = 0; j < 9; j++) {
                 // one constraint
-                int[][][] constraint = new int[9][9][9];
+                int[][][] coefficients = new int[9][9][9];
                 for (int k = 0; k <9; k++) {
-                    constraint[i][k][j] = 1;
+                    coefficients[i][k][j] = 1;
                 }
-                constraints.add(new Constraint(constraint, 1));
+                constraints.add(new Constraint(coefficients, 1));
+            }
+        }
+
+        return constraints;
+    }
+
+    public List<Constraint> createForColumns() {
+        List<Constraint> constraints = new ArrayList<>(); //we should have 9 per row (total 81)
+
+        for (int i = 0; i < 9; i++) {
+            // we need to create 9 constraints per iteration
+            for (int j = 0; j < 9; j++) {
+                // one constraint
+                int[][][] coefficients = new int[9][9][9];
+                for (int k = 0; k <9; k++) {
+                    coefficients[k][i][j] = 1;
+                }
+                constraints.add(new Constraint(coefficients, 1));
             }
         }
 
@@ -60,37 +78,19 @@ public class GenericConstraintsCreator {
             for (int j = 0; j < 9; j+=3) {
                 for (int k = 0; k <9; k++) {
                 // one constraint
-                    int[][][] constraint = new int[9][9][9];
-                    constraint[i][j][k] = 1;
-                    constraint[i+1][j][k] = 1;
-                    constraint[i+2][j][k] = 1;
-                    constraint[i][j+1][k] = 1;
-                    constraint[i][j+2][k] = 1;
-                    constraint[i+1][j+1][k] = 1;
-                    constraint[i+1][j+2][k] = 1;
-                    constraint[i+2][j+1][k] = 1;
-                    constraint[i+2][j+2][k] = 1;
+                    int[][][] coefficients = new int[9][9][9];
+                    coefficients[i][j][k] = 1;
+                    coefficients[i+1][j][k] = 1;
+                    coefficients[i+2][j][k] = 1;
+                    coefficients[i][j+1][k] = 1;
+                    coefficients[i][j+2][k] = 1;
+                    coefficients[i+1][j+1][k] = 1;
+                    coefficients[i+1][j+2][k] = 1;
+                    coefficients[i+2][j+1][k] = 1;
+                    coefficients[i+2][j+2][k] = 1;
 
-                    constraints.add(new Constraint(constraint, 1));
+                    constraints.add(new Constraint(coefficients, 1));
                 }
-            }
-        }
-
-        return constraints;
-    }
-
-    public List<Constraint> createForColumns() {
-        List<Constraint> constraints = new ArrayList<>(); //we should have 9 per row (total 81)
-
-        for (int i = 0; i < 9; i++) {
-            // we need to create 9 constraints per iteration
-            for (int j = 0; j < 9; j++) {
-                // one constraint
-                int[][][] constraint = new int[9][9][9];
-                for (int k = 0; k <9; k++) {
-                    constraint[k][i][j] = 1;
-                }
-                constraints.add(new Constraint(constraint, 1));
             }
         }
 

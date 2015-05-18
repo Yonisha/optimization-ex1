@@ -4,11 +4,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import sudoku.GenericLpSolver.Constraint;
 import sudoku.GenericLpSolver.GenericConstraintsCreator;
+import sudoku.NonGenericLpSolver.NonGenericConstraintsCreator;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConstraintsCreatorTests {
+public class GenericConstraintsCreatorTests {
 
     @Test
     public void createForCells(){

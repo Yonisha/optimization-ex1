@@ -1,14 +1,21 @@
 package sudoku;
 
 public class SudokuDrawer{
-    public void draw(double[] board){
-        for (int i = 1; i <= board.length; i++) {
-            if (board[i - 1] != 0.0) {
-                System.out.print(i % 9 + 1);
-            }
-
-            if (i % 81 == 0)
+    public void draw(String board, String tag){
+        System.out.println("---------");
+        System.out.print(tag + ":");
+        char[] chars = board.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (i % 9 == 0)
                 System.out.println();
+
+
+            System.out.print(chars[i]);
+
+
         }
+        System.out.println();
+        System.out.println("---------");
+        System.out.println();
     }
 }
