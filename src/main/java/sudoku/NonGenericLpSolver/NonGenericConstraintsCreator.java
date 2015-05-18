@@ -32,7 +32,8 @@ public class NonGenericConstraintsCreator {
                 // one constraint
                 int[][][] coefficients = new int[9][9][9];
                 Integer currentValue = input.get(i* 9 + j);
-                coefficients[i][j][currentValue] = 1;
+                if (currentValue != 0)
+                    coefficients[i][j][currentValue-1] = 1;
                 constraints.add(new Constraint(coefficients, 1));
             }
         }
@@ -49,7 +50,8 @@ public class NonGenericConstraintsCreator {
                 // one constraint
                 int[][][] coefficients = new int[9][9][9];
                 Integer currentValue = input.get(i* 9 + j);
-                coefficients[i][currentValue][j] = 1;
+                if (currentValue != 0)
+                    coefficients[i][currentValue-1][j] = 1;
 //                for (int k = 0; k < 9; k++) {
 //                    Integer currentValue = input.get(i* 9 + k);
 //                    if (currentValue != j)
@@ -71,7 +73,8 @@ public class NonGenericConstraintsCreator {
                 // one constraint
                 int[][][] coefficients = new int[9][9][9];
                 Integer currentValue = input.get(i* 9 + j);
-                coefficients[currentValue][i][j] = 1;
+                if (currentValue != 0)
+                    coefficients[currentValue-1][i][j] = 1;
 //                for (int k = 0; k < 9; k++) {
 //                    coefficients[k][i][j] = 1;
 //                }
@@ -90,15 +93,17 @@ public class NonGenericConstraintsCreator {
             for (int j = 0; j < 9; j += 3) {
                 int[][][] coefficients = new int[9][9][9];
                 Integer currentValue = input.get(i* 9 + j);
-                coefficients[i][j][currentValue] = 1;
-                coefficients[i + 1][j][currentValue] = 1;
-                coefficients[i + 2][j][currentValue] = 1;
-                coefficients[i][j + 1][currentValue] = 1;
-                coefficients[i][j + 2][currentValue] = 1;
-                coefficients[i + 1][j + 1][currentValue] = 1;
-                coefficients[i + 1][j + 2][currentValue] = 1;
-                coefficients[i + 2][j + 1][currentValue] = 1;
-                coefficients[i + 2][j + 2][currentValue] = 1;
+                if (currentValue != 0){
+                    coefficients[i][j][currentValue-1] = 1;
+                    coefficients[i + 1][j][currentValue-1] = 1;
+                    coefficients[i + 2][j][currentValue-1] = 1;
+                    coefficients[i][j + 1][currentValue-1] = 1;
+                    coefficients[i][j + 2][currentValue-1] = 1;
+                    coefficients[i + 1][j + 1][currentValue-1] = 1;
+                    coefficients[i + 1][j + 2][currentValue-1] = 1;
+                    coefficients[i + 2][j + 1][currentValue-1] = 1;
+                    coefficients[i + 2][j + 2][currentValue-1] = 1;
+                }
 
                 constraints.add(new Constraint(coefficients, 1));
 

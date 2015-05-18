@@ -9,11 +9,9 @@ public class SudokuDrawer{
             if (i % 9 == 0)
                 System.out.println();
 
-
             System.out.print(chars[i]);
-
-
         }
+
         System.out.println();
         System.out.println("---------");
         System.out.println();

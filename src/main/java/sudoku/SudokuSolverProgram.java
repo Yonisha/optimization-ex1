@@ -13,14 +13,15 @@ public class SudokuSolverProgram {
     public static void main(String[] args) {
 
         // Change in order to replace ways of solution
-        int questionNumber = 2;
+        WaysOfSolution waysOfSolution = WaysOfSolution.NONGENERIC;
+
         String inputFileName = "";//args[0];
         String outputFileName = "";//args[1];
 
         List<String> inputBoards = readInputLine(inputFileName);
 
         LpSolver lpSolver = new LpSolver();
-        ISudokuSolver sudokuSolver = getSudokuSolver(questionNumber, lpSolver);
+        ISudokuSolver sudokuSolver = getSudokuSolver(waysOfSolution, lpSolver);
         SudokuDrawer sudokuDrawer = new SudokuDrawer();
 
         List<String> solutions = inputBoards.stream().map(b -> solveSingleBoard(sudokuSolver, b, sudokuDrawer)).collect(Collectors.toList());
@@ -52,14 +53,14 @@ public class SudokuSolverProgram {
 
     }
 
-    private static ISudokuSolver getSudokuSolver(int questionNumber, LpSolver lpSolver){
-        if (questionNumber == 1)
+    private static ISudokuSolver getSudokuSolver(WaysOfSolution waysOfSolution, LpSolver lpSolver){
+        if (waysOfSolution == WaysOfSolution.BRUTEFORCE)
             return new BruteForceSolver();
 
-        if (questionNumber == 2)
+        if (waysOfSolution == WaysOfSolution.GENERIC)
             return new GenericLpSolver(lpSolver);
 
-        if (questionNumber == 3)
+        if (waysOfSolution == WaysOfSolution.NONGENERIC)
             return new NonGenericLpSolver(lpSolver);
 
         throw new IllegalArgumentException("We only have 3 different implementations!");
