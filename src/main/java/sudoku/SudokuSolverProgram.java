@@ -10,7 +10,6 @@ import sudoku.utils.TimeFormatter;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class SudokuSolverProgram {
@@ -18,6 +17,13 @@ public class SudokuSolverProgram {
 
         // Change in order to replace ways of solution
         WaysOfSolution waysOfSolution = WaysOfSolution.GENERIC;
+
+        if (args.length != 2)
+        {
+            System.out.println("Usage:");
+            System.out.println("<InputFile> <OutputFile>");
+            System.exit(1);
+        }
 
         String inputFileName = args[0];
         String outputFileName = args[1];
