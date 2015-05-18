@@ -4,10 +4,13 @@ import sudoku.BruteForceSolver.BruteForceSolver;
 import sudoku.GenericLpSolver.GenericLpSolver;
 import sudoku.GenericLpSolver.LpSolver;
 import sudoku.NonGenericLpSolver.NonGenericLpSolver;
+import sudoku.utils.SudokuDrawer;
+import sudoku.utils.TimeFormatter;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class SudokuSolverProgram {
@@ -31,7 +34,7 @@ public class SudokuSolverProgram {
         long endTime = System.currentTimeMillis();
         System.out.println();
         System.out.println("---------------------------------------------------------------------------");
-        System.out.println("Total time: " + (endTime - startTime) / 1000 + " seconds");
+        System.out.println("Total time: " + TimeFormatter.format(endTime - startTime));
 
         for (int i = 0; i < inputBoards.size(); i++) {
             sudokuDrawer.draw(inputBoards.get(i), "input" + (i+1));

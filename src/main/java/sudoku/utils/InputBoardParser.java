@@ -1,7 +1,8 @@
-package sudoku;
+package sudoku.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class InputBoardParser {
     public List<Integer> parse(String board) {

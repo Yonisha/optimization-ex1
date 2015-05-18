@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.utils;
 
 public class SudokuDrawer{
     public void draw(String board, String tag){

@@ -1,10 +1,8 @@
 package sudoku.BruteForceSolver;
 
-import javafx.util.Pair;
 import sudoku.ISudokuSolver;
-import sudoku.InputBoardParser;
+import sudoku.utils.InputBoardParser;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
