@@ -15,8 +15,8 @@ public class GenericLpSolver implements ISudokuSolver {
 
     public double[] Solve(String inputBoard) {
 
-         ConstraintsCreator constraintsCreator = new ConstraintsCreator();
-         List<Constraint> constraints = constraintsCreator.create();
+         GenericConstraintsCreator genericConstraintsCreator = new GenericConstraintsCreator();
+         List<Constraint> constraints = genericConstraintsCreator.create();
          constraints.addAll(getConstraintsFromInput(inputBoard));
 
         int numberOfVariables = 729;

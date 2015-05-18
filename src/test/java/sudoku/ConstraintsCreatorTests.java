@@ -3,43 +3,41 @@ package sudoku;
 import org.junit.Assert;
 import org.junit.Test;
 import sudoku.GenericLpSolver.Constraint;
-import sudoku.GenericLpSolver.ConstraintsCreator;
+import sudoku.GenericLpSolver.GenericConstraintsCreator;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ConstraintsCreatorTests {
 
     @Test
     public void createForCells(){
-        ConstraintsCreator constraintsCreator = new ConstraintsCreator();
-        List<Constraint> constraints = constraintsCreator.createForCells();
+        GenericConstraintsCreator genericConstraintsCreator = new GenericConstraintsCreator();
+        List<Constraint> constraints = genericConstraintsCreator.createForCells();
         List<String> collect = constraints.stream().map(c -> c.getCoefficientsAsString()).collect(Collectors.toList());
         Assert.assertEquals(81, constraints.size());
     }
 
     @Test
     public void createForRows(){
-        ConstraintsCreator constraintsCreator = new ConstraintsCreator();
-        List<Constraint> constraints = constraintsCreator.createForRows();
+        GenericConstraintsCreator genericConstraintsCreator = new GenericConstraintsCreator();
+        List<Constraint> constraints = genericConstraintsCreator.createForRows();
         List<String> collect = constraints.stream().map(c -> c.getCoefficientsAsString()).collect(Collectors.toList());
         Assert.assertEquals(81, constraints.size());
     }
 
     @Test
     public void createForColumns(){
-        ConstraintsCreator constraintsCreator = new ConstraintsCreator();
-        List<Constraint> constraints = constraintsCreator.createForColumns();
+        GenericConstraintsCreator genericConstraintsCreator = new GenericConstraintsCreator();
+        List<Constraint> constraints = genericConstraintsCreator.createForColumns();
         List<String> collect = constraints.stream().map(c -> c.getCoefficientsAsString()).collect(Collectors.toList());
         Assert.assertEquals(81, constraints.size());
     }
 
     @Test
     public void createForSquares(){
-        ConstraintsCreator constraintsCreator = new ConstraintsCreator();
-        List<Constraint> constraints = constraintsCreator.createForSquares();
+        GenericConstraintsCreator genericConstraintsCreator = new GenericConstraintsCreator();
+        List<Constraint> constraints = genericConstraintsCreator.createForSquares();
         List<String> collect = constraints.stream().map(c -> c.getCoefficientsAsString()).collect(Collectors.toList());
         Assert.assertEquals(81, constraints.size());
     }
