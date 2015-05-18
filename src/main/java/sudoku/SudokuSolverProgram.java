@@ -2,6 +2,7 @@ package sudoku;
 
 import sudoku.BruteForceSolver.BruteForceSolver;
 import sudoku.GenericLpSolver.GenericLpSolver;
+import sudoku.GenericLpSolver.LpSolver;
 import sudoku.NonGenericLpSolver.NonGenericLpSolver;
 
 import java.util.ArrayList;
@@ -13,16 +14,17 @@ public class SudokuSolverProgram {
 
         // Change in order to replace ways of solution
         int questionNumber = 2;
-        String inpurFileName = args[0];
-        String outpurFileName = args[1];
+        String inputFileName = "";//args[0];
+        String outputFileName = "";//args[1];
 
-        List<String> inputBoards = readInputLine(inpurFileName);
+        List<String> inputBoards = readInputLine(inputFileName);
 
-        ISudokuSolver sudokuSolver = getSudokuSolver(questionNumber);
+        LpSolver lpSolver = new LpSolver();
+        ISudokuSolver sudokuSolver = getSudokuSolver(questionNumber, lpSolver);
         SudokuDrawer sudokuDrawer = new SudokuDrawer();
 
         List<String> solutions = inputBoards.stream().map(b -> solveSingleBoard(sudokuSolver, b, sudokuDrawer)).collect(Collectors.toList());
-        writeOutputFile(solutions, outpurFileName);
+        writeOutputFile(solutions, outputFileName);
     }
 
     private static String solveSingleBoard(ISudokuSolver sudokuSolver, String board, SudokuDrawer sudokuDrawer){
@@ -48,15 +50,15 @@ public class SudokuSolverProgram {
 
     }
 
-    private static ISudokuSolver getSudokuSolver(int questionNumber){
+    private static ISudokuSolver getSudokuSolver(int questionNumber, LpSolver lpSolver){
         if (questionNumber == 1)
             return new BruteForceSolver();
 
         if (questionNumber == 2)
-            return new GenericLpSolver();
+            return new GenericLpSolver(lpSolver);
 
         if (questionNumber == 3)
-            return new NonGenericLpSolver();
+            return new NonGenericLpSolver(lpSolver);
 
         throw new IllegalArgumentException("We only have 3 different implementations!");
     }
