@@ -2,43 +2,42 @@ package sudoku.BruteForceSolver;
 
 import javafx.util.Pair;
 import sudoku.ISudokuSolver;
+import sudoku.InputBoardParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BruteForceSolver implements ISudokuSolver {
 
     public double[] Solve(String inputBoard){
 
-//        for (int i = 0; i < inputBoard.length; i++) {
-//            if (inputBoard[i] != 0)
-//                continue;
-//
-//            int valueForCurrentCell = solveCurrentCell(inputBoard, i, 1);
-//            if (valueForCurrentCell != 0){
-//
-//            }
+        InputBoardParser inputBoardParser = new InputBoardParser();
+        List<Integer> parsedBoard = inputBoardParser.parse(inputBoard);
 
-//
-//        }
-//
-//        return inputBoard;
+        List<Cell> cells = parsedBoard.stream().map(i -> new Cell(i, i != 0)).collect(Collectors.toList());
+
+        List<Cell> cells1 = fillCellRecursive(cells, 0);
+
+
         return new double[0];
     }
 
-//    private int[] solveCurrentCellRec(int[] inputBoard, int indexOfCurrentCell){
-//        int valueForCurrentCell = solveCurrentCell(inputBoard, i, 1);
-//        if (valueForCurrentCell != 0) {
-//        }
-//    }
-//
-//    private int solveCurrentCell(int[] inputBoard, int indexOfCurrentCell, int indexToStartFromForValue){
-//        for (int i = indexToStartFromForValue; i <=9; i++) {
-//            inputBoard[indexOfCurrentCell] = i;
-//            if (boardIsLegal(inputBoard))
-//                return i;
-//        }
-//
-//        return 0;
-//    }
+    private List<Cell> fillCellRecursive(List<Cell> input, int currentIndex){
+        if (currentIndex == input.size()-1)
+            return input;
+
+        if (input.get(currentIndex).isFixed())
+            fillCellRecursive(input, currentIndex - 1);
+
+        int value = input.get(currentIndex).getValue();
+        if (value == 9)
+        {
+            input.get(currentIndex).initValue();
+            fillCellRecursive(input, currentIndex - 1);
+        }
+
+        input.get(currentIndex).incrementValue();
+        return fillCellRecursive(input, currentIndex + 1);
+    }
 }

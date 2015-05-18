@@ -5,6 +5,7 @@ import sudoku.GenericLpSolver.GenericLpSolver;
 import sudoku.GenericLpSolver.LpSolver;
 import sudoku.NonGenericLpSolver.NonGenericLpSolver;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,44 +14,85 @@ public class SudokuSolverProgram {
     public static void main(String[] args) {
 
         // Change in order to replace ways of solution
-        WaysOfSolution waysOfSolution = WaysOfSolution.NONGENERIC;
+        WaysOfSolution waysOfSolution = WaysOfSolution.GENERIC;
 
-        String inputFileName = "";//args[0];
-        String outputFileName = "";//args[1];
+        String inputFileName = args[0];
+        String outputFileName = args[1];
 
         List<String> inputBoards = readInputLine(inputFileName);
 
         LpSolver lpSolver = new LpSolver();
+
         ISudokuSolver sudokuSolver = getSudokuSolver(waysOfSolution, lpSolver);
         SudokuDrawer sudokuDrawer = new SudokuDrawer();
 
-        List<String> solutions = inputBoards.stream().map(b -> solveSingleBoard(sudokuSolver, b, sudokuDrawer)).collect(Collectors.toList());
+        long startTime = System.currentTimeMillis();
+        List<String> solutions = inputBoards.stream().map(b -> solveSingleBoard(sudokuSolver, b)).collect(Collectors.toList());
+        long endTime = System.currentTimeMillis();
+        System.out.println();
+        System.out.println("---------------------------------------------------------------------------");
+        System.out.println("Total time: " + (endTime - startTime) / 1000 + " seconds");
+
+        for (int i = 0; i < inputBoards.size(); i++) {
+            sudokuDrawer.draw(inputBoards.get(i), "input" + (i+1));
+            sudokuDrawer.draw(solutions.get(i), "output" + (i+1));
+        }
+
         writeOutputFile(solutions, outputFileName);
     }
 
-    private static String solveSingleBoard(ISudokuSolver sudokuSolver, String board, SudokuDrawer sudokuDrawer){
-        sudokuDrawer.draw(board, "input");
+    private static String solveSingleBoard(ISudokuSolver sudokuSolver, String board){
         double[] solution = sudokuSolver.Solve(board);
         String normalizedSolution = normalizeSolution(solution);
-        sudokuDrawer.draw(normalizedSolution, "output");
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < solution.length; i++) {
-            stringBuilder.append(String.valueOf(solution[i]));
-        }
-
-        return stringBuilder.toString();
+        return normalizedSolution;
     }
 
     private static List<String> readInputLine(String inputFileName){
-        String inputLevel1 = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
+
         List<String> inputLines = new ArrayList<>();
-        inputLines.add(inputLevel1);
+        BufferedReader bufferedReader = null;
+        String currentLine = "";
+        try {
+            bufferedReader = new BufferedReader(new FileReader(inputFileName));
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                inputLines.add(currentLine);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+//        String inputLevel1 = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
+//        inputLines.add(inputLevel1);
 
         return inputLines;
     }
 
     private static void writeOutputFile(List<String> solutions, String outputFileName) {
-
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(outputFileName), "utf-8"))) {
+            solutions.stream().forEach(s -> {
+                try {
+                    writer.write(s + "\r\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static ISudokuSolver getSudokuSolver(WaysOfSolution waysOfSolution, LpSolver lpSolver){
