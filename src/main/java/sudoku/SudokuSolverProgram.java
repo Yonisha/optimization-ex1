@@ -13,8 +13,8 @@ public class SudokuSolverProgram {
 
         // Change in order to replace ways of solution
         int questionNumber = 2;
-        String inpurFileName = args[0];
-        String outpurFileName = args[1];
+        String inpurFileName = ""; //args[0];
+        String outpurFileName = ""; //args[1];
 
         List<String> inputBoards = readInputLine(inpurFileName);
 
@@ -25,8 +25,16 @@ public class SudokuSolverProgram {
         writeOutputFile(solutions, outpurFileName);
     }
 
-    private static String solveSingleBoard(ISudokuSolver sudokuSolver, String board, SudokuDrawer sudokuDrawer){
+    private static String solveSingleBoard(ISudokuSolver sudokuSolver, String board, SudokuDrawer sudokuDrawer) {
         double[] solution = sudokuSolver.Solve(board);
+
+        // TODO: verify according to input as well?
+        boolean result = Verifier.verifyResult(solution);
+
+        if (!result) {
+            System.out.println("-------> Wrong solution !!!! <-------");
+        }
+
         sudokuDrawer.draw(solution);
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < solution.length; i++) {
