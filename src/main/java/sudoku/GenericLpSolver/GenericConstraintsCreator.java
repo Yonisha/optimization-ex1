@@ -9,10 +9,10 @@ public class GenericConstraintsCreator {
     public List<Constraint> create(){
 
         List<Constraint> constraints = new ArrayList<>();
-        constraints.addAll(createForCells());
+//        constraints.addAll(createForCells());
 //        constraints.addAll(createForRows());
-        constraints.addAll(createForColumns());
-        constraints.addAll(createForSquares());
+//        constraints.addAll(createForColumns());
+//        constraints.addAll(createForSquares());
         return constraints;
     }
 
@@ -20,12 +20,76 @@ public class GenericConstraintsCreator {
     public List<Constraint> create2(){
 
         List<Constraint> constraints = new ArrayList<>();
-//        constraints.addAll(createForCells());
+        constraints.addAll(findVariablesForCellConstraints());
         constraints.addAll(findVariablesForRowConstraints());
-//        constraints.addAll(createForColumns());
-//        constraints.addAll(createForSquares());
+        constraints.addAll(findVariablesForColumnConstraints());
+        constraints.addAll(findVariablesForSquareConstraints());
         return constraints;
     }
+
+    public List<Constraint> findVariablesForCellConstraints() {
+        List<Constraint> constraints = new ArrayList<>(); //we should have 9 per cell (total 81)
+
+        for (int i = 0; i < 9; i++) {
+            // we need to create 9 constraints per iteration
+            for (int j = 0; j < 9; j++) {
+                // one constraint
+                List<Integer> coefficients = new ArrayList<>();
+                for (int k = 0; k <9; k++) {
+                    coefficients.add(i*81 + j*9 + k);
+                }
+                constraints.add(new Constraint(coefficients, 1));
+            }
+        }
+
+        return constraints;
+    }
+
+    public List<Constraint> findVariablesForColumnConstraints() {
+        List<Constraint> constraints = new ArrayList<>(); //we should have 9 per column (total 81)
+
+        for (int i = 0; i < 9; i++) {
+            // we need to create 9 constraints per iteration
+            for (int j = 0; j < 9; j++) {
+                // one constraint
+                List<Integer> coefficients = new ArrayList<>();
+                for (int k = 0; k <9; k++) {
+                    coefficients.add(k*81 + i*9 + j);
+                }
+                constraints.add(new Constraint(coefficients, 1));
+            }
+        }
+
+        return constraints;
+    }
+
+    public List<Constraint> findVariablesForSquareConstraints() {
+        List<Constraint> constraints = new ArrayList<>(); //we should have 9 per square (total 81)
+
+        for (int i = 0; i < 9; i+=3) {
+            // we need to create 9 constraints per iteration
+            for (int j = 0; j < 9; j+=3) {
+                for (int k = 0; k <9; k++) {
+                    // one constraint
+                    List<Integer> coefficients = new ArrayList<>();
+                    coefficients.add(i*81 + j*9 + k);
+                    coefficients.add((i+1)*81 + j*9 + k);
+                    coefficients.add((i+2)*81 + j*9 + k);
+                    coefficients.add(i*81 + (j+1)*9 + k);
+                    coefficients.add(i*81 + (j+2)*9 + k);
+                    coefficients.add((i+1)*81 + (j+1)*9 + k);
+                    coefficients.add((i+1)*81 + (j+2)*9 + k);
+                    coefficients.add((i+2)*81 + (j+1)*9 + k);
+                    coefficients.add((i+2)*81 + (j+2)*9 + k);
+
+                    constraints.add(new Constraint(coefficients, 1));
+                }
+            }
+        }
+
+        return constraints;
+    }
+
     public List<Constraint> createForCells() {
         List<Constraint> constraints = new ArrayList<>(); //we should have 9 per row (total 81)
 
@@ -71,7 +135,7 @@ public class GenericConstraintsCreator {
                 // one constraint
                 List<Integer> coefficients = new ArrayList<>();
                 for (int k = 0; k <9; k++) {
-                    coefficients.add(i*9 + k*9 + j);
+                    coefficients.add(i*81 + k*9 + j);
                 }
                 constraints.add(new Constraint(coefficients, 1));
             }
