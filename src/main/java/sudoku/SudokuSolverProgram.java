@@ -67,28 +67,28 @@ public class SudokuSolverProgram {
     private static List<String> readInputLine(String inputFileName){
 
         List<String> inputLines = new ArrayList<>();
-        BufferedReader bufferedReader = null;
-        String currentLine = "";
-        try {
-            bufferedReader = new BufferedReader(new FileReader(inputFileName));
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                inputLines.add(currentLine);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedReader != null)
-                    bufferedReader.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+//        BufferedReader bufferedReader = null;
+//        String currentLine = "";
+//        try {
+//            bufferedReader = new BufferedReader(new FileReader(inputFileName));
+//            while ((currentLine = bufferedReader.readLine()) != null) {
+//                inputLines.add(currentLine);
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                if (bufferedReader != null)
+//                    bufferedReader.close();
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
 
-//        String inputLevel1 = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
-//        inputLines.add(inputLevel1);
+        String inputLevel1 = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
+        inputLines.add(inputLevel1);
 
         return inputLines;
     }

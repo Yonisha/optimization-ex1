@@ -17,6 +17,14 @@ public class Constraint{
         this.sumOfVariables = sumOfVariables;
     }
 
+    public int[] getCo(){
+        int[] result = new int[9];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = coefficients.get(i)+1;
+        }
+        return result;
+    }
+
     public String getCoefficientsAsString(){
 
         StringBuilder stringBuilder = new StringBuilder();

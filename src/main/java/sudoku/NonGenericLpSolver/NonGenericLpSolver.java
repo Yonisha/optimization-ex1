@@ -4,6 +4,7 @@ import sudoku.GenericLpSolver.Constraint;
 import sudoku.GenericLpSolver.LpSolver;
 import sudoku.ISudokuSolver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NonGenericLpSolver implements ISudokuSolver {
@@ -20,7 +21,7 @@ public class NonGenericLpSolver implements ISudokuSolver {
         int numberOfVariables = getNumberOfVariables(inputBoard);
         List<Constraint> constraints = genericConstraintsCreator.create(inputBoard, numberOfVariables);
 
-        double[] solution = lpSolver.Solve(numberOfVariables, constraints);
+        double[] solution = lpSolver.Solve(numberOfVariables, constraints, new ArrayList<>());
         return solution;
     }
 

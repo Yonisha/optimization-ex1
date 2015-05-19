@@ -10,12 +10,22 @@ public class GenericConstraintsCreator {
 
         List<Constraint> constraints = new ArrayList<>();
         constraints.addAll(createForCells());
-        constraints.addAll(createForRows());
+//        constraints.addAll(createForRows());
         constraints.addAll(createForColumns());
         constraints.addAll(createForSquares());
         return constraints;
     }
 
+
+    public List<Constraint> create2(){
+
+        List<Constraint> constraints = new ArrayList<>();
+//        constraints.addAll(createForCells());
+        constraints.addAll(findVariablesForRowConstraints());
+//        constraints.addAll(createForColumns());
+//        constraints.addAll(createForSquares());
+        return constraints;
+    }
     public List<Constraint> createForCells() {
         List<Constraint> constraints = new ArrayList<>(); //we should have 9 per row (total 81)
 
@@ -44,6 +54,24 @@ public class GenericConstraintsCreator {
                 int[][][] coefficients = new int[9][9][9];
                 for (int k = 0; k <9; k++) {
                     coefficients[i][k][j] = 1;
+                }
+                constraints.add(new Constraint(coefficients, 1));
+            }
+        }
+
+        return constraints;
+    }
+
+    public List<Constraint> findVariablesForRowConstraints() {
+        List<Constraint> constraints = new ArrayList<>(); //we should have 9 per row (total 81)
+
+        for (int i = 0; i < 9; i++) {
+            // we need to create 9 constraints per iteration
+            for (int j = 0; j < 9; j++) {
+                // one constraint
+                List<Integer> coefficients = new ArrayList<>();
+                for (int k = 0; k <9; k++) {
+                    coefficients.add(i*9 + k*9 + j);
                 }
                 constraints.add(new Constraint(coefficients, 1));
             }

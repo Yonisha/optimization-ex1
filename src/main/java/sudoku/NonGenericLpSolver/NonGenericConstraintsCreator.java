@@ -17,9 +17,9 @@ public class NonGenericConstraintsCreator {
 
         List<Constraint> constraints = new ArrayList<>();
         constraints.addAll(createForCells(input));
-        constraints.addAll(createForRows(input));
-        constraints.addAll(createForColumns(input));
-        constraints.addAll(createForSquares(input));
+//        constraints.addAll(createForRows(input));
+//        constraints.addAll(createForColumns(input));
+//        constraints.addAll(createForSquares(input));
         return constraints;
     }
 
@@ -51,7 +51,8 @@ public class NonGenericConstraintsCreator {
                 int[][][] coefficients = new int[9][9][9];
                 Integer currentValue = input.get(i* 9 + j);
                 if (currentValue != 0)
-                    coefficients[i][currentValue-1][j] = 1;
+//                    coefficients[i][currentValue-1][j] = 1;
+                    coefficients[i][j][currentValue - 1] = 1;
 //                for (int k = 0; k < 9; k++) {
 //                    Integer currentValue = input.get(i* 9 + k);
 //                    if (currentValue != j)
