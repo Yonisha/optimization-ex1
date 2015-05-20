@@ -8,14 +8,14 @@ import java.util.List;
 
 public class NonGenericConstraintsCreator {
 
-    public List<Constraint> create(String inputBoard, int numberOfVariables) {
+    public List<Constraint> create(String inputBoard) {
 
         int[][] parseInput = InputBoardParser.parseToTwoDimensionalArray(inputBoard);
         List<Constraint> constraints = new ArrayList<>();
         constraints.addAll(findVariablesForCellConstraints(parseInput));
         constraints.addAll(findVariablesForRowConstraints(parseInput));
         constraints.addAll(findVariablesForColumnConstraints(parseInput));
-//        constraints.addAll(findVariablesForSquareConstraints());
+        constraints.addAll(findVariablesForSquareConstraints(parseInput));
         return constraints;
     }
 
@@ -46,7 +46,7 @@ public class NonGenericConstraintsCreator {
                 // we need to create max 9 constraints per iteration
                 int[] relevantInputRow = input[i];
                 for (int j = 0; j < 9; j++) {
-                    if (thisNumberIsAlreadyInInputRow(relevantInputRow, j+1))
+                    if (thisNumberIsAlreadyInInput(relevantInputRow, j + 1))
                         continue;
                     // one constraint
                     List<Integer> variables = new ArrayList<>();
@@ -67,7 +67,7 @@ public class NonGenericConstraintsCreator {
                 // we need to create max 9 constraints per iteration
                 int[] relevantInputColumn = getColumn(input, i);
                 for (int j = 0; j < 9; j++) {
-                    if (thisNumberIsAlreadyInInputRow(relevantInputColumn, j+1))
+                    if (thisNumberIsAlreadyInInput(relevantInputColumn, j + 1))
                         continue;
                     // one constraint
                     List<Integer> variables = new ArrayList<>();
@@ -81,13 +81,16 @@ public class NonGenericConstraintsCreator {
             return constraints;
         }
 
-    private List<Constraint> findVariablesForSquareConstraints() {
+    private List<Constraint> findVariablesForSquareConstraints(int[][] input) {
             List<Constraint> constraints = new ArrayList<>(); //we should have 9 per square (total 81)
 
             for (int i = 0; i < 9; i+=3) {
-                // we need to create 9 constraints per iteration
                 for (int j = 0; j < 9; j+=3) {
+                    // we need to create max 9 constraints per iteration
+                    int[] relevantInputSquare = getSquare(input, i, i+2, j, j+2);
                     for (int k = 0; k <9; k++) {
+                        if (thisNumberIsAlreadyInInput(relevantInputSquare, k + 1))
+                            continue;
                         // one constraint
                         List<Integer> variables = new ArrayList<>();
                         variables.add(i * 81 + j * 9 + k);
@@ -108,9 +111,9 @@ public class NonGenericConstraintsCreator {
             return constraints;
         }
 
-    private boolean thisNumberIsAlreadyInInputRow(int[] relevantInputRow, int j) {
-        for (int i = 0; i < relevantInputRow.length; i++) {
-            if (relevantInputRow[i] == j)
+    private boolean thisNumberIsAlreadyInInput(int[] relevantInput, int j) {
+        for (int i = 0; i < relevantInput.length; i++) {
+            if (relevantInput[i] == j)
                 return true;
         }
 
@@ -124,5 +127,17 @@ public class NonGenericConstraintsCreator {
         }
 
         return column;
+    }
+
+    private int[] getSquare(int[][] input, int rowStartIndex, int rowEndIndex, int columnStartIndex, int columnEndIndex) {
+        List<Integer> square = new ArrayList<>();
+        for (int i = rowStartIndex; i <= rowEndIndex; i++) {
+            for (int j = columnStartIndex; j <= columnEndIndex; j++) {
+                square.add(input[i][j]);
+            }
+        }
+
+        int[] result = square.stream().mapToInt(i -> i).toArray();
+        return result;
     }
 }

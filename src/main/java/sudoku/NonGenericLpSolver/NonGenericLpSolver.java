@@ -19,7 +19,7 @@ public class NonGenericLpSolver implements ISudokuSolver {
 
         NonGenericConstraintsCreator genericConstraintsCreator = new NonGenericConstraintsCreator();
         int numberOfVariables = getNumberOfVariables(inputBoard);
-        List<Constraint> constraints = genericConstraintsCreator.create(inputBoard, numberOfVariables);
+        List<Constraint> constraints = genericConstraintsCreator.create(inputBoard);
 
         double[] solution = lpSolver.Solve(numberOfVariables, constraints);
         return solution;
@@ -29,7 +29,7 @@ public class NonGenericLpSolver implements ISudokuSolver {
         int numberOfEmptyCells = 0;
         char[] chars = inputBoard.toCharArray();
         for (int i = 0; i < 81; i++) {
-            if (chars[i] != '0')
+            if (chars[i] == '0')
                 numberOfEmptyCells++;
         }
 
