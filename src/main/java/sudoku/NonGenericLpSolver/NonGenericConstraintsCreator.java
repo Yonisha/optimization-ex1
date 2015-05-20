@@ -21,16 +21,20 @@ public class NonGenericConstraintsCreator {
 
     private List<Constraint> findVariablesForCellConstraints(int[][] input) {
             List<Constraint> constraints = new ArrayList<>(); //we should have 9 per cell (total 81)
+        int missingVariables = 0;
 
             for (int i = 0; i < 9; i++) {
                 // we need to create max 9 constraints per iteration
                 for (int j = 0; j < 9; j++) {
-                    if (input[i][j] != 0)
+                    if (input[i][j] != 0){
+                        missingVariables += 9;
                         continue;
+                    }
+
                     // one constraint
                     List<Integer> variables = new ArrayList<>();
                     for (int k = 0; k <9; k++) {
-                        variables.add(i*81 + j*9 + k);
+                        variables.add(i*81 + j*9 + k - missingVariables);
                     }
                     constraints.add(new Constraint(variables, 1));
                 }
@@ -42,16 +46,21 @@ public class NonGenericConstraintsCreator {
     private List<Constraint> findVariablesForRowConstraints(int[][] input) {
             List<Constraint> constraints = new ArrayList<>(); //we should have 9 per row (total 81)
 
+        int missingVariables = 0;
+
             for (int i = 0; i < 9; i++) {
                 // we need to create max 9 constraints per iteration
                 int[] relevantInputRow = input[i];
                 for (int j = 0; j < 9; j++) {
-                    if (thisNumberIsAlreadyInInput(relevantInputRow, j + 1))
+                    if (thisNumberIsAlreadyInInput(relevantInputRow, j + 1)){
+                        missingVariables +=9;
                         continue;
+                    }
+
                     // one constraint
                     List<Integer> variables = new ArrayList<>();
                     for (int k = 0; k <9; k++) {
-                        variables.add(i*81 + k*9 + j);
+                        variables.add(i*81 + k*9 + j - missingVariables);
                     }
                     constraints.add(new Constraint(variables, 1));
                 }
@@ -63,16 +72,21 @@ public class NonGenericConstraintsCreator {
     private List<Constraint> findVariablesForColumnConstraints(int[][] input) {
             List<Constraint> constraints = new ArrayList<>(); //we should have 9 per column (total 81)
 
+            int missingVariables = 0;
+
             for (int i = 0; i < 9; i++) {
                 // we need to create max 9 constraints per iteration
                 int[] relevantInputColumn = getColumn(input, i);
                 for (int j = 0; j < 9; j++) {
-                    if (thisNumberIsAlreadyInInput(relevantInputColumn, j + 1))
+                    if (thisNumberIsAlreadyInInput(relevantInputColumn, j + 1)){
+                        missingVariables += 9;
                         continue;
+                    }
+
                     // one constraint
                     List<Integer> variables = new ArrayList<>();
                     for (int k = 0; k <9; k++) {
-                        variables.add(k*81 + i*9 + j);
+                        variables.add(k*81 + i*9 + j - missingVariables);
                     }
                     constraints.add(new Constraint(variables, 1));
                 }
@@ -84,24 +98,29 @@ public class NonGenericConstraintsCreator {
     private List<Constraint> findVariablesForSquareConstraints(int[][] input) {
             List<Constraint> constraints = new ArrayList<>(); //we should have 9 per square (total 81)
 
+        int missingVariables = 0;
+
             for (int i = 0; i < 9; i+=3) {
                 for (int j = 0; j < 9; j+=3) {
                     // we need to create max 9 constraints per iteration
                     int[] relevantInputSquare = getSquare(input, i, i+2, j, j+2);
                     for (int k = 0; k <9; k++) {
-                        if (thisNumberIsAlreadyInInput(relevantInputSquare, k + 1))
+                        if (thisNumberIsAlreadyInInput(relevantInputSquare, k + 1)){
+                            missingVariables += 9;
                             continue;
+                        }
+
                         // one constraint
                         List<Integer> variables = new ArrayList<>();
-                        variables.add(i * 81 + j * 9 + k);
-                        variables.add((i + 1) * 81 + j * 9 + k);
-                        variables.add((i + 2) * 81 + j * 9 + k);
-                        variables.add(i * 81 + (j + 1) * 9 + k);
-                        variables.add(i * 81 + (j + 2) * 9 + k);
-                        variables.add((i + 1) * 81 + (j + 1) * 9 + k);
-                        variables.add((i + 1) * 81 + (j + 2) * 9 + k);
-                        variables.add((i + 2) * 81 + (j + 1) * 9 + k);
-                        variables.add((i + 2) * 81 + (j + 2) * 9 + k);
+                        variables.add(i * 81 + j * 9 + k - missingVariables);
+                        variables.add((i + 1) * 81 + j * 9 + k - missingVariables);
+                        variables.add((i + 2) * 81 + j * 9 + k - missingVariables);
+                        variables.add(i * 81 + (j + 1) * 9 + k - missingVariables);
+                        variables.add(i * 81 + (j + 2) * 9 + k - missingVariables);
+                        variables.add((i + 1) * 81 + (j + 1) * 9 + k - missingVariables);
+                        variables.add((i + 1) * 81 + (j + 2) * 9 + k - missingVariables);
+                        variables.add((i + 2) * 81 + (j + 1) * 9 + k - missingVariables);
+                        variables.add((i + 2) * 81 + (j + 2) * 9 + k - missingVariables);
 
                         constraints.add(new Constraint(variables, 1));
                     }
