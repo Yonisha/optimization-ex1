@@ -14,7 +14,7 @@ public class NonGenericConstraintsCreator {
         List<Constraint> constraints = new ArrayList<>();
         constraints.addAll(findVariablesForCellConstraints(parseInput));
         constraints.addAll(findVariablesForRowConstraints(parseInput));
-//        constraints.addAll(findVariablesForColumnConstraints());
+        constraints.addAll(findVariablesForColumnConstraints(parseInput));
 //        constraints.addAll(findVariablesForSquareConstraints());
         return constraints;
     }
@@ -23,7 +23,7 @@ public class NonGenericConstraintsCreator {
             List<Constraint> constraints = new ArrayList<>(); //we should have 9 per cell (total 81)
 
             for (int i = 0; i < 9; i++) {
-                // we need to create 9 constraints per iteration
+                // we need to create max 9 constraints per iteration
                 for (int j = 0; j < 9; j++) {
                     if (input[i][j] != 0)
                         continue;
@@ -43,7 +43,7 @@ public class NonGenericConstraintsCreator {
             List<Constraint> constraints = new ArrayList<>(); //we should have 9 per row (total 81)
 
             for (int i = 0; i < 9; i++) {
-                // we need to create 9 constraints per iteration
+                // we need to create max 9 constraints per iteration
                 int[] relevantInputRow = input[i];
                 for (int j = 0; j < 9; j++) {
                     if (thisNumberIsAlreadyInInputRow(relevantInputRow, j+1))
@@ -60,12 +60,15 @@ public class NonGenericConstraintsCreator {
             return constraints;
         }
 
-    private List<Constraint> findVariablesForColumnConstraints() {
+    private List<Constraint> findVariablesForColumnConstraints(int[][] input) {
             List<Constraint> constraints = new ArrayList<>(); //we should have 9 per column (total 81)
 
             for (int i = 0; i < 9; i++) {
-                // we need to create 9 constraints per iteration
+                // we need to create max 9 constraints per iteration
+                int[] relevantInputColumn = getColumn(input, i);
                 for (int j = 0; j < 9; j++) {
+                    if (thisNumberIsAlreadyInInputRow(relevantInputColumn, j+1))
+                        continue;
                     // one constraint
                     List<Integer> variables = new ArrayList<>();
                     for (int k = 0; k <9; k++) {
@@ -112,5 +115,14 @@ public class NonGenericConstraintsCreator {
         }
 
         return false;
+    }
+
+    private int[] getColumn(int[][] input, int columnIndex) {
+        int[] column = new int[9];
+        for (int i = 0; i < input.length; i++) {
+            column[i] = input[i][columnIndex];
+        }
+
+        return column;
     }
 }
