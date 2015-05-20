@@ -13,7 +13,7 @@ public class NonGenericConstraintsCreator {
         int[][] parseInput = InputBoardParser.parseToTwoDimensionalArray(inputBoard);
         List<Constraint> constraints = new ArrayList<>();
         constraints.addAll(findVariablesForCellConstraints(parseInput));
-//        constraints.addAll(findVariablesForRowConstraints());
+        constraints.addAll(findVariablesForRowConstraints(parseInput));
 //        constraints.addAll(findVariablesForColumnConstraints());
 //        constraints.addAll(findVariablesForSquareConstraints());
         return constraints;
@@ -39,12 +39,15 @@ public class NonGenericConstraintsCreator {
             return constraints;
         }
 
-    private List<Constraint> findVariablesForRowConstraints() {
+    private List<Constraint> findVariablesForRowConstraints(int[][] input) {
             List<Constraint> constraints = new ArrayList<>(); //we should have 9 per row (total 81)
 
             for (int i = 0; i < 9; i++) {
                 // we need to create 9 constraints per iteration
+                int[] relevantInputRow = input[i];
                 for (int j = 0; j < 9; j++) {
+                    if (thisNumberIsAlreadyInInputRow(relevantInputRow, j+1))
+                        continue;
                     // one constraint
                     List<Integer> variables = new ArrayList<>();
                     for (int k = 0; k <9; k++) {
@@ -101,4 +104,13 @@ public class NonGenericConstraintsCreator {
 
             return constraints;
         }
+
+    private boolean thisNumberIsAlreadyInInputRow(int[] relevantInputRow, int j) {
+        for (int i = 0; i < relevantInputRow.length; i++) {
+            if (relevantInputRow[i] == j)
+                return true;
+        }
+
+        return false;
+    }
 }
