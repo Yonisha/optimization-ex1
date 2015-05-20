@@ -33,10 +33,12 @@ public class LpSolver {
 
     private void addConstraint(LpSolve solver, Constraint constraint)  {
         try {
-            if (constraint.getCoefficients().length == 9)
-                solver.addConstraintex(9, new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1}, constraint.getCoefficients(), LpSolve.EQ, 1);
-            else
-                solver.addConstraintex(1, new double[]{1}, constraint.getCoefficients(), LpSolve.EQ, constraint.getSum());
+            int numberOfVariablesInConstraint = constraint.getVariables().length;
+            double[] coefficientsForConstraint = new double[numberOfVariablesInConstraint];
+            for (int i = 0; i < numberOfVariablesInConstraint; i++) {
+                coefficientsForConstraint[i] = 1;
+            }
+            solver.addConstraintex(numberOfVariablesInConstraint, coefficientsForConstraint, constraint.getVariables(), LpSolve.EQ, constraint.getSum());
         } catch (LpSolveException e) {
             e.printStackTrace();
         }

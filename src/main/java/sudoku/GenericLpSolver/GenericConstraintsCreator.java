@@ -17,23 +17,6 @@ public class GenericConstraintsCreator {
         return constraints;
     }
 
-    private List<Constraint> findVariablesForInputConstraints(String input){
-        char[] chars = input.toCharArray();
-        List<Constraint> constraints = new ArrayList<>();
-
-        for (int i = 0; i < 81; i++) {
-            int currentInput = Integer.parseInt(chars[i] + "");
-            if (currentInput == 0)
-                continue;
-
-            List<Integer> coefficients = new ArrayList<>();
-            coefficients.add((i*81)/9 + (i*9)%9 + currentInput-1);
-            constraints.add(new Constraint(coefficients, 1));
-        }
-
-        return constraints;
-    }
-
     private List<Constraint> findVariablesForCellConstraints() {
         List<Constraint> constraints = new ArrayList<>(); //we should have 9 per cell (total 81)
 
@@ -41,11 +24,11 @@ public class GenericConstraintsCreator {
             // we need to create 9 constraints per iteration
             for (int j = 0; j < 9; j++) {
                 // one constraint
-                List<Integer> coefficients = new ArrayList<>();
+                List<Integer> variables = new ArrayList<>();
                 for (int k = 0; k <9; k++) {
-                    coefficients.add(i*81 + j*9 + k);
+                    variables.add(i*81 + j*9 + k);
                 }
-                constraints.add(new Constraint(coefficients, 1));
+                constraints.add(new Constraint(variables, 1));
             }
         }
 
@@ -59,11 +42,11 @@ public class GenericConstraintsCreator {
             // we need to create 9 constraints per iteration
             for (int j = 0; j < 9; j++) {
                 // one constraint
-                List<Integer> coefficients = new ArrayList<>();
+                List<Integer> variables = new ArrayList<>();
                 for (int k = 0; k <9; k++) {
-                    coefficients.add(i*81 + k*9 + j);
+                    variables.add(i*81 + k*9 + j);
                 }
-                constraints.add(new Constraint(coefficients, 1));
+                constraints.add(new Constraint(variables, 1));
             }
         }
 
@@ -77,11 +60,11 @@ public class GenericConstraintsCreator {
             // we need to create 9 constraints per iteration
             for (int j = 0; j < 9; j++) {
                 // one constraint
-                List<Integer> coefficients = new ArrayList<>();
+                List<Integer> variables = new ArrayList<>();
                 for (int k = 0; k <9; k++) {
-                    coefficients.add(k*81 + i*9 + j);
+                    variables.add(k*81 + i*9 + j);
                 }
-                constraints.add(new Constraint(coefficients, 1));
+                constraints.add(new Constraint(variables, 1));
             }
         }
 
@@ -96,20 +79,37 @@ public class GenericConstraintsCreator {
             for (int j = 0; j < 9; j+=3) {
                 for (int k = 0; k <9; k++) {
                     // one constraint
-                    List<Integer> coefficients = new ArrayList<>();
-                    coefficients.add(i*81 + j*9 + k);
-                    coefficients.add((i+1)*81 + j*9 + k);
-                    coefficients.add((i+2)*81 + j*9 + k);
-                    coefficients.add(i*81 + (j+1)*9 + k);
-                    coefficients.add(i*81 + (j+2)*9 + k);
-                    coefficients.add((i+1)*81 + (j+1)*9 + k);
-                    coefficients.add((i+1)*81 + (j+2)*9 + k);
-                    coefficients.add((i+2)*81 + (j+1)*9 + k);
-                    coefficients.add((i+2)*81 + (j+2)*9 + k);
+                    List<Integer> variables = new ArrayList<>();
+                    variables.add(i * 81 + j * 9 + k);
+                    variables.add((i + 1) * 81 + j * 9 + k);
+                    variables.add((i + 2) * 81 + j * 9 + k);
+                    variables.add(i * 81 + (j + 1) * 9 + k);
+                    variables.add(i * 81 + (j + 2) * 9 + k);
+                    variables.add((i + 1) * 81 + (j + 1) * 9 + k);
+                    variables.add((i + 1) * 81 + (j + 2) * 9 + k);
+                    variables.add((i + 2) * 81 + (j + 1) * 9 + k);
+                    variables.add((i + 2) * 81 + (j + 2) * 9 + k);
 
-                    constraints.add(new Constraint(coefficients, 1));
+                    constraints.add(new Constraint(variables, 1));
                 }
             }
+        }
+
+        return constraints;
+    }
+
+    private List<Constraint> findVariablesForInputConstraints(String input){
+        char[] chars = input.toCharArray();
+        List<Constraint> constraints = new ArrayList<>();
+
+        for (int i = 0; i < 81; i++) {
+            int currentInput = Integer.parseInt(chars[i] + "");
+            if (currentInput == 0)
+                continue;
+
+            List<Integer> variables = new ArrayList<>();
+            variables.add((i*81)/9 + (i*9)%9 + currentInput-1);
+            constraints.add(new Constraint(variables, 1));
         }
 
         return constraints;

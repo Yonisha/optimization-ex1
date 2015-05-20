@@ -1,23 +1,21 @@
 package sudoku.GenericLpSolver;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Constraint{
-    private List<Integer> coefficients;
+    private List<Integer> variables;
     private int sumOfVariables;
 
-    public Constraint(List<Integer> coefficients, int sumOfVariables){
-        this.coefficients = coefficients;
+    public Constraint(List<Integer> variables, int sumOfVariables){
+        this.variables = variables;
         this.sumOfVariables = sumOfVariables;
     }
 
-    public int[] getCoefficients(){
-        return coefficients.stream().mapToInt(i->i+1).toArray();
+    public int[] getVariables(){
+        return variables.stream().mapToInt(i->i+1).toArray();
     }
 
     public int getSum(){
         return this.sumOfVariables;
     }
-
 }
