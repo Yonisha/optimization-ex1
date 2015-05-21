@@ -16,7 +16,7 @@ public class SudokuSolverProgram {
     public static void main(String[] args) {
 
         // Change in order to replace ways of solution
-        WaysOfSolution waysOfSolution = WaysOfSolution.GENERIC;
+        WaysOfSolution waysOfSolution = WaysOfSolution.NONGENERIC;
 
         if (args.length != 2)
         {
@@ -36,7 +36,8 @@ public class SudokuSolverProgram {
         SudokuDrawer sudokuDrawer = new SudokuDrawer();
 
         long startTime = System.currentTimeMillis();
-        List<String> solutions = inputBoards.stream().map(b -> solveSingleBoard(sudokuSolver, b)).collect(Collectors.toList());
+        List<double[]> solutions = sudokuSolver.Solve(inputBoards);
+        List<String> solutionsAsString = solutions.stream().map(s -> verifySolutionAndGetAsString(s)).collect(Collectors.toList());
         long endTime = System.currentTimeMillis();
         System.out.println();
         System.out.println("---------------------------------------------------------------------------");
@@ -44,18 +45,16 @@ public class SudokuSolverProgram {
 
         for (int i = 0; i < inputBoards.size(); i++) {
             sudokuDrawer.draw(inputBoards.get(i), "input" + (i+1));
-            sudokuDrawer.draw(solutions.get(i), "output" + (i+1));
+            sudokuDrawer.draw(solutionsAsString.get(i), "output" + (i+1));
         }
 
-        writeOutputFile(solutions, outputFileName);
+        writeOutputFile(solutionsAsString, outputFileName);
     }
 
-    private static String solveSingleBoard(ISudokuSolver sudokuSolver, String board){
-        double[] solution = sudokuSolver.Solve(board);
-        
-        // TODO: verify according to input as well?
-        boolean result = Verifier.verifyResult(solution);
+    private static String verifySolutionAndGetAsString(double[] solution){
 
+        // TODO: verify according to input as well
+        boolean result = Verifier.verifyResult(solution);
         if (!result) {
             System.out.println("-------> Wrong solution !!!! <-------");
         }

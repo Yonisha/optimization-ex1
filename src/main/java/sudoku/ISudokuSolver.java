@@ -1,5 +1,7 @@
 package sudoku;
 
+import java.util.List;
+
 public interface ISudokuSolver{
-    double[] Solve(String inputBoard);
+    List<double[]> Solve(List<String> inputBoards);
 }

@@ -3,12 +3,18 @@ package sudoku.BruteForceSolver;
 import sudoku.ISudokuSolver;
 import sudoku.utils.InputBoardParser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class BruteForceSolver implements ISudokuSolver {
 
-    public double[] Solve(String inputBoard){
+    public List<double[]> Solve(List<String> inputBoards) {
+
+        return inputBoards.stream().map(b -> solveSingleBoard(b)).collect(Collectors.toList());
+    }
+
+    private double[] solveSingleBoard(String inputBoard) {
 
         InputBoardParser inputBoardParser = new InputBoardParser();
         List<Integer> parsedBoard = inputBoardParser.parse(inputBoard);
