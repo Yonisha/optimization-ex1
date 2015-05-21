@@ -18,6 +18,9 @@ public class Cell{
         return this.value;
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
     public void initValue(){
         this.value = 0;
     }

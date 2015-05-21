@@ -16,7 +16,7 @@ public class SudokuSolverProgram {
     public static void main(String[] args) {
 
         // Change in order to replace ways of solution
-        WaysOfSolution waysOfSolution = WaysOfSolution.GENERIC;
+        WaysOfSolution waysOfSolution = WaysOfSolution.BRUTEFORCE;
 
         if (args.length != 2)
         {
@@ -36,28 +36,29 @@ public class SudokuSolverProgram {
         SudokuDrawer sudokuDrawer = new SudokuDrawer();
 
         long startTime = System.currentTimeMillis();
-        List<String> solutions = inputBoards.stream().map(b -> solveSingleBoard(sudokuSolver, b)).collect(Collectors.toList());
+        List<double[]> solutions = sudokuSolver.Solve(inputBoards);
+        List<String> solutionsAsString = solutions.stream().map(s -> verifySolutionAndGetAsString(s)).collect(Collectors.toList());
         long endTime = System.currentTimeMillis();
         System.out.println();
         System.out.println("---------------------------------------------------------------------------");
         System.out.println("Total time: " + TimeFormatter.format(endTime - startTime));
 
-        for (int i = 0; i < inputBoards.size(); i++) {
-            sudokuDrawer.draw(inputBoards.get(i), "input" + (i+1));
-            sudokuDrawer.draw(solutions.get(i), "output" + (i+1));
-        }
+//        for (int i = 0; i < inputBoards.size(); i++) {
+//            sudokuDrawer.draw(inputBoards.get(i), "input" + (i+1));
+//            sudokuDrawer.draw(solutionsAsString.get(i), "output" + (i+1));
+//        }
 
-        writeOutputFile(solutions, outputFileName);
+        writeOutputFile(solutionsAsString, outputFileName);
     }
 
-    private static String solveSingleBoard(ISudokuSolver sudokuSolver, String board){
-        double[] solution = sudokuSolver.Solve(board);
-        
-        // TODO: verify according to input as well?
-        boolean result = Verifier.verifyResult(solution);
+    private static String verifySolutionAndGetAsString(double[] solution){
 
+        // TODO: verify according to input as well
+        boolean result = Verifier.verifyResult(solution, true);
         if (!result) {
             System.out.println("-------> Wrong solution !!!! <-------");
+        } else {
+            System.out.println("-------> Solution has been found!!!! <-------");
         }
 
         String normalizedSolution = normalizeSolution(solution);
@@ -67,28 +68,28 @@ public class SudokuSolverProgram {
     private static List<String> readInputLine(String inputFileName){
 
         List<String> inputLines = new ArrayList<>();
-//        BufferedReader bufferedReader = null;
-//        String currentLine = "";
-//        try {
-//            bufferedReader = new BufferedReader(new FileReader(inputFileName));
-//            while ((currentLine = bufferedReader.readLine()) != null) {
-//                inputLines.add(currentLine);
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (bufferedReader != null)
-//                    bufferedReader.close();
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
+        BufferedReader bufferedReader = null;
+        String currentLine = "";
+        try {
+            bufferedReader = new BufferedReader(new FileReader(inputFileName));
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                inputLines.add(currentLine);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
 
-        String inputLevel1 = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
-        inputLines.add(inputLevel1);
+//        String inputLevel1 = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
+//        inputLines.add(inputLevel1);
 
         return inputLines;
     }

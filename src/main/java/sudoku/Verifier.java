@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class Verifier {
 
-    public static boolean verifyResult(double[][][] result) {
-        return checkForCells(result) && checkForRows(result) && checkForColumns(result) && checkForSquares(result);
+    public static boolean verifyResult(double[][][] result, boolean full) {
+        return checkForCells(result, full) && checkForRows(result, full) && checkForColumns(result, full) && checkForSquares(result, full);
     }
 
-    public static boolean verifyResult(double[] result) {
+    public static boolean verifyResult(double[] result, boolean full) {
         double[][][] doubles = buildMatrix(result);
 
-        return verifyResult(doubles);
+        return verifyResult(doubles, full);
     }
 
     private static double[][][] buildMatrix(double[] result) {
@@ -34,7 +34,7 @@ public class Verifier {
         return matrix;
     }
 
-    private static boolean checkForCells(double[][][] matrix) {
+    private static boolean checkForCells(double[][][] matrix, boolean full) {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -45,6 +45,8 @@ public class Verifier {
 
                 if (sum > 1) {
                     return false;
+                } if (full && sum != 1) {
+                    return false;
                 }
             }
         }
@@ -52,7 +54,7 @@ public class Verifier {
         return true;
     }
 
-    private static boolean checkForRows(double[][][] matrix) {
+    private static boolean checkForRows(double[][][] matrix, boolean full) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 int sum = 0;
@@ -62,6 +64,8 @@ public class Verifier {
 
                 if (sum > 1) {
                     return false;
+                } else if (full && sum != 1) {
+                    return false;
                 }
             }
         }
@@ -69,7 +73,7 @@ public class Verifier {
         return true;
     }
 
-    private static boolean checkForSquares(double[][][] matrix) {
+    private static boolean checkForSquares(double[][][] matrix, boolean full) {
 
         for (int i = 0; i < 9; i+=3) {
             for (int j = 0; j < 9; j+=3) {
@@ -89,6 +93,8 @@ public class Verifier {
 
                     if (sum > 1 ) {
                         return false;
+                    } else if (full && sum != 1) {
+                        return false;
                     }
                 }
             }
@@ -97,7 +103,7 @@ public class Verifier {
         return true;
     }
 
-    private static boolean checkForColumns(double[][][] matrix) {
+    private static boolean checkForColumns(double[][][] matrix, boolean full) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
 
@@ -107,6 +113,8 @@ public class Verifier {
                 }
 
                 if (sum > 1) {
+                    return false;
+                } else if (full && sum != 1) {
                     return false;
                 }
             }

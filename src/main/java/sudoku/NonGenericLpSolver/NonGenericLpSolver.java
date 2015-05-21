@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class NonGenericLpSolver implements ISudokuSolver {
 
@@ -18,8 +19,12 @@ public class NonGenericLpSolver implements ISudokuSolver {
         this.lpSolver = lpSolver;
     }
 
-    public double[] Solve(String inputBoard){
+    public List<double[]> Solve(List<String> inputBoards){
 
+        return inputBoards.stream().map(b -> solveSingleBoard(b)).collect(Collectors.toList());
+    }
+
+    private double[] solveSingleBoard(String inputBoard){
         NonGenericConstraintsCreator genericConstraintsCreator = new NonGenericConstraintsCreator();
         int numberOfVariables = getNumberOfVariables(inputBoard);
         List<Constraint> constraints = genericConstraintsCreator.create(inputBoard);

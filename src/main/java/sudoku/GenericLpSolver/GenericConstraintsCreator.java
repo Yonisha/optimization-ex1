@@ -6,14 +6,13 @@ import java.util.List;
 
 public class GenericConstraintsCreator {
 
-    public List<Constraint> create(String input){
+    public List<Constraint> create(){
 
         List<Constraint> constraints = new ArrayList<>();
         constraints.addAll(findVariablesForCellConstraints());
         constraints.addAll(findVariablesForRowConstraints());
         constraints.addAll(findVariablesForColumnConstraints());
         constraints.addAll(findVariablesForSquareConstraints());
-        constraints.addAll(findVariablesForInputConstraints(input));
         return constraints;
     }
 
@@ -97,22 +96,4 @@ public class GenericConstraintsCreator {
 
         return constraints;
     }
-
-    private List<Constraint> findVariablesForInputConstraints(String input){
-        char[] chars = input.toCharArray();
-        List<Constraint> constraints = new ArrayList<>();
-
-        for (int i = 0; i < 81; i++) {
-            int currentInput = Integer.parseInt(chars[i] + "");
-            if (currentInput == 0)
-                continue;
-
-            List<Integer> variables = new ArrayList<>();
-            variables.add((i*81)/9 + (i*9)%9 + currentInput-1);
-            constraints.add(new Constraint(variables, 1));
-        }
-
-        return constraints;
-    }
-
 }

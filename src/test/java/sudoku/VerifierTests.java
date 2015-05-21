@@ -15,7 +15,7 @@ public class VerifierTests{
             solution[i] = Double.parseDouble(solutionAsStrings[i]);
         }
 
-        boolean result = Verifier.verifyResult(solution);
+        boolean result = Verifier.verifyResult(solution, true);
         Assert.assertEquals(true, result);
     }
 
@@ -29,7 +29,7 @@ public class VerifierTests{
             solution[i] = Double.parseDouble(solutionAsStrings[i]);
         }
 
-        boolean result = Verifier.verifyResult(solution);
+        boolean result = Verifier.verifyResult(solution, true);
         Assert.assertEquals(false, result);
     }
 }
