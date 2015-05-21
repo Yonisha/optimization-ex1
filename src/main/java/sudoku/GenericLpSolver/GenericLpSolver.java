@@ -24,7 +24,7 @@ public class GenericLpSolver implements ISudokuSolver {
     }
 
     private double[] SolveSingleBoard(String inputBoard, List<Constraint> genericConstraints){
-        List<Constraint> constraintsWithInput = genericConstraints;
+        List<Constraint> constraintsWithInput = new ArrayList<>(genericConstraints);
         constraintsWithInput.addAll(findVariablesForInputConstraints(inputBoard));
         double[] solution = lpSolver.Solve(729, constraintsWithInput);
         return solution;

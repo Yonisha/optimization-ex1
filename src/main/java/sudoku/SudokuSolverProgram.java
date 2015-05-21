@@ -16,7 +16,7 @@ public class SudokuSolverProgram {
     public static void main(String[] args) {
 
         // Change in order to replace ways of solution
-        WaysOfSolution waysOfSolution = WaysOfSolution.BRUTEFORCE;
+        WaysOfSolution waysOfSolution = WaysOfSolution.GENERIC;
 
         if (args.length != 2)
         {
@@ -43,22 +43,19 @@ public class SudokuSolverProgram {
         System.out.println("---------------------------------------------------------------------------");
         System.out.println("Total time: " + TimeFormatter.format(endTime - startTime));
 
-//        for (int i = 0; i < inputBoards.size(); i++) {
-//            sudokuDrawer.draw(inputBoards.get(i), "input" + (i+1));
-//            sudokuDrawer.draw(solutionsAsString.get(i), "output" + (i+1));
-//        }
+        for (int i = 0; i < inputBoards.size(); i++) {
+            sudokuDrawer.draw(inputBoards.get(i), "input" + (i+1));
+            sudokuDrawer.draw(solutionsAsString.get(i), "output" + (i+1));
+        }
 
         writeOutputFile(solutionsAsString, outputFileName);
     }
 
     private static String verifySolutionAndGetAsString(double[] solution){
 
-        // TODO: verify according to input as well
-        boolean result = Verifier.verifyResult(solution, true);
+        boolean result = Verifier.verifyResult(solution);
         if (!result) {
             System.out.println("-------> Wrong solution !!!! <-------");
-        } else {
-            System.out.println("-------> Solution has been found!!!! <-------");
         }
 
         String normalizedSolution = normalizeSolution(solution);
@@ -68,6 +65,7 @@ public class SudokuSolverProgram {
     private static List<String> readInputLine(String inputFileName){
 
         List<String> inputLines = new ArrayList<>();
+
         BufferedReader bufferedReader = null;
         String currentLine = "";
         try {
@@ -90,6 +88,11 @@ public class SudokuSolverProgram {
 
 //        String inputLevel1 = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
 //        inputLines.add(inputLevel1);
+//
+//        String input1Level6 = "000075400000000008080190000300001060000000034000068170204000603900000020530200000";
+//        inputLines.add(input1Level6);
+//        String input2Level6 = "300000000050703008000028070700000043000000000003904105400300800100040000968000200";
+//        inputLines.add(input2Level6);
 
         return inputLines;
     }
