@@ -15,18 +15,34 @@ import java.util.stream.Collectors;
 public class SudokuSolverProgram {
     public static void main(String[] args) {
 
-        // Change in order to replace ways of solution
-        WaysOfSolution waysOfSolution = WaysOfSolution.GENERIC;
-
-        if (args.length != 2)
+        if (args.length != 3)
         {
             System.out.println("Usage:");
-            System.out.println("<InputFile> <OutputFile>");
+            System.out.println("<InputFile> <OutputFile> <Model>");
+            System.out.println("You must enter 1-3 as the third argument");
+            System.out.println("1 for Brute Force");
+            System.out.println("2 for Generic LP");
+            System.out.println("3 for Non Generic LP");
             System.exit(1);
         }
 
         String inputFileName = args[0];
         String outputFileName = args[1];
+        int model = Integer.parseInt(args[2]);
+        WaysOfSolution waysOfSolution = WaysOfSolution.fromInteger(model);
+        if (waysOfSolution == null){
+            System.out.println("You must enter 1-3 as the third argument");
+            System.out.println("1 for Brute Force");
+            System.out.println("2 for Generic LP");
+            System.out.println("3 for Non Generic LP");
+            System.exit(1);
+        }
+
+        File file = new File(inputFileName);
+        if (!file.exists()){
+            System.out.println("The input file: " + inputFileName + " doesn't exist!");
+            System.exit(1);
+        }
 
         List<String> inputBoards = readInputLine(inputFileName);
 
@@ -53,7 +69,7 @@ public class SudokuSolverProgram {
 
     private static String verifySolutionAndGetAsString(double[] solution){
 
-        boolean result = Verifier.verifyResult(solution);
+        boolean result = Verifier.verifyResult(solution, true);
         if (!result) {
             System.out.println("-------> Wrong solution !!!! <-------");
         }
@@ -65,29 +81,29 @@ public class SudokuSolverProgram {
     private static List<String> readInputLine(String inputFileName){
 
         List<String> inputLines = new ArrayList<>();
+//
+//        BufferedReader bufferedReader = null;
+//        String currentLine = "";
+//        try {
+//            bufferedReader = new BufferedReader(new FileReader(inputFileName));
+//            while ((currentLine = bufferedReader.readLine()) != null) {
+//                inputLines.add(currentLine);
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                if (bufferedReader != null)
+//                    bufferedReader.close();
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
 
-        BufferedReader bufferedReader = null;
-        String currentLine = "";
-        try {
-            bufferedReader = new BufferedReader(new FileReader(inputFileName));
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                inputLines.add(currentLine);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedReader != null)
-                    bufferedReader.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-//        String inputLevel1 = "001700509573024106800501002700295018009400305652800007465080071000159004908007053";
-//        inputLines.add(inputLevel1);
+        String inputLevel1 = "000075400000000008080190000300001060000000034000068170204000603900000020530200000";
+        inputLines.add(inputLevel1);
 //
 //        String input1Level6 = "000075400000000008080190000300001060000000034000068170204000603900000020530200000";
 //        inputLines.add(input1Level6);
