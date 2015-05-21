@@ -19,7 +19,7 @@ public class LpSolver {
             solver.setMinim();
             constraints.stream().forEach(c -> addConstraint(solver, c));
 
-            solver.writeLp("F:/nonlp.lp");
+//            solver.writeLp("c:/nonlp.lp");
             solver.solve();
             solver.getVariables(objectiveFunc);
             return objectiveFunc;
