@@ -9,15 +9,15 @@ import java.util.List;
  * Created by yonisha on 5/18/2015.
  */
 public class Verifier {
+
+    public static boolean verifyResult(double[][][] result) {
+        return checkForCells(result) && checkForRows(result) && checkForColumns(result) && checkForSquares(result);
+    }
+
     public static boolean verifyResult(double[] result) {
         double[][][] doubles = buildMatrix(result);
 
-        boolean success = checkForCells(doubles);
-        success &= checkForRows(doubles);
-        success &= checkForColumns(doubles);
-        success &= checkForSquares(doubles);
-
-        return success;
+        return verifyResult(doubles);
     }
 
     private static double[][][] buildMatrix(double[] result) {
