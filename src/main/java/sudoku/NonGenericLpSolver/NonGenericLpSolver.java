@@ -5,7 +5,9 @@ import sudoku.GenericLpSolver.LpSolver;
 import sudoku.ISudokuSolver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NonGenericLpSolver implements ISudokuSolver {
 
@@ -35,4 +37,6 @@ public class NonGenericLpSolver implements ISudokuSolver {
 
         return numberOfEmptyCells * 9;
     }
+
+
 }
