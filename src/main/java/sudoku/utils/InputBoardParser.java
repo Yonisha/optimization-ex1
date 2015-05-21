@@ -20,19 +20,8 @@ public class InputBoardParser {
         char[] chars = board.toCharArray();
         int[][] parsedBoard = new int[9][9];
         for (int i = 0; i < 9; i++) {
-            for (int j = 0; j <9; j++) {
-                parsedBoard[i][j] = Character.getNumericValue(chars[i*9+j]);
-            }
-        }
-
-        return parsedBoard;
-    }
-
-    public static Cell[][] parseCellsToTwoDimensionalArray(List<Cell> board) {
-        Cell[][] parsedBoard = new Cell[9][9];
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j <9; j++) {
-                parsedBoard[i][j] = board.get(i*9+j);
+            for (int j = 0; j < 9; j++) {
+                parsedBoard[i][j] = Character.getNumericValue(chars[i * 9 + j]);
             }
         }
 
