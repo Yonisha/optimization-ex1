@@ -3,6 +3,7 @@ package sudoku.NonGenericLpSolver;
 import sudoku.GenericLpSolver.Constraint;
 import sudoku.GenericLpSolver.LpSolver;
 import sudoku.ISudokuSolver;
+import sudoku.utils.InputBoardParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,8 @@ public class NonGenericLpSolver implements ISudokuSolver {
         List<Constraint> constraints = genericConstraintsCreator.create(inputBoard);
 
         double[] solution = lpSolver.Solve(numberOfVariables, constraints);
-        return solution;
+        double[] solutionWithInput = addInputToSolution(solution, inputBoard);
+        return solutionWithInput;
     }
 
     private int getNumberOfVariables(String inputBoard){
@@ -38,5 +40,27 @@ public class NonGenericLpSolver implements ISudokuSolver {
         return numberOfEmptyCells * 9;
     }
 
+    private double[] addInputToSolution(double[] solution, String inputBoard){
+        List<Integer> inputAsList = InputBoardParser.parse(inputBoard);
+        List<Double> result = new ArrayList<>();
+        int solutionIndex = 0;
+        for (int i = 0; i < inputAsList.size(); i++) {
+            Integer currentInput = inputAsList.get(i);
+            if (currentInput == 0){
+                for (int j = 0; j < 9; j++) {
+                    result.add(solution[solutionIndex]);
+                    solutionIndex++;
+                }
+            }else{
+                for (int j = 0; j < 9; j++) {
+                    if (currentInput == j+1)
+                        result.add(1.0);
+                    else
+                        result.add(0.0);
+                }
+            }
+        }
 
+        return result.stream().mapToDouble(i ->i).toArray();
+    }
 }
