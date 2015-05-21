@@ -11,7 +11,7 @@ public class TimeFormatterTests {
 
         long millis = 3600000;
         String format = TimeFormatter.format(millis);
-        Assert.assertEquals("00:01:00:00", format);
+        Assert.assertEquals("00:01:00:00:0000", format);
     }
 
     @Test
@@ -19,7 +19,7 @@ public class TimeFormatterTests {
 
         long millis = 86400000;
         String format = TimeFormatter.format(millis);
-        Assert.assertEquals("01:00:00:00", format);
+        Assert.assertEquals("01:00:00:00:0000", format);
     }
 
     @Test

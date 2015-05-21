@@ -53,7 +53,7 @@ public class SudokuSolverProgram {
 
     private static String verifySolutionAndGetAsString(double[] solution){
 
-        boolean result = Verifier.verifyResult(solution);
+        boolean result = Verifier.verifyResult(solution, true);
         if (!result) {
             System.out.println("-------> Wrong solution !!!! <-------");
         }
