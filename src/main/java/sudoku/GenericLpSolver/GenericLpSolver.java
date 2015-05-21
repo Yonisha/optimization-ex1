@@ -16,30 +16,10 @@ public class GenericLpSolver implements ISudokuSolver {
     public double[] Solve(String inputBoard) {
 
         GenericConstraintsCreator genericConstraintsCreator = new GenericConstraintsCreator();
-        List<Constraint> constraints = genericConstraintsCreator.create();
-        List<Constraint> constraintsFromInput = getConstraintsFromInput(inputBoard);
-        constraints.addAll(constraintsFromInput);
+        List<Constraint> constraints = genericConstraintsCreator.create(inputBoard);
 
-        List<Constraint> constraints2 = genericConstraintsCreator.create2();
         int numberOfVariables = 729;
-        double[] solution = lpSolver.Solve(numberOfVariables, constraints, constraints2);
+        double[] solution = lpSolver.Solve(numberOfVariables, constraints);
         return solution;
-    }
-
-    private List<Constraint> getConstraintsFromInput(String input){
-        char[] chars = input.toCharArray();
-        List<Constraint> constraints = new ArrayList<>();
-
-        for (int i = 0; i < 81; i++) {
-            int currentInput = Integer.parseInt(chars[i] + "");
-            if (currentInput == 0)
-                continue;
-
-            int[][][] coefficients = new int[9][9][9];
-            coefficients[i/9][i%9][currentInput-1] = 1;
-            constraints.add(new Constraint(coefficients, 1));
-        }
-
-        return constraints;
     }
 }

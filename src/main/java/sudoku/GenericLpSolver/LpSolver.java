@@ -6,7 +6,7 @@ import lpsolve.LpSolveException;
 import java.util.List;
 
 public class LpSolver {
-    public double[] Solve(int numberOfVariables, List<Constraint> constraints, List<Constraint> constraints2){
+    public double[] Solve(int numberOfVariables, List<Constraint> constraints){
         try {
             LpSolve solver = LpSolve.makeLp(0, numberOfVariables);
             double[] objectiveFunc = new double[numberOfVariables];
@@ -18,12 +18,8 @@ public class LpSolver {
             solver.setObjFn(objectiveFunc);
             solver.setMinim();
             constraints.stream().forEach(c -> addConstraint(solver, c));
-            for (int i = 0; i <constraints2.size(); i++) {
-                solver.addConstraintex(9, new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1}, constraints2.get(i).getCo(), LpSolve.EQ, 1);
-            }
 
-
-//            solver.writeLp("F:/lp.lp");
+            solver.writeLp("F:/nonlp.lp");
             solver.solve();
             solver.getVariables(objectiveFunc);
             return objectiveFunc;
@@ -37,7 +33,12 @@ public class LpSolver {
 
     private void addConstraint(LpSolve solver, Constraint constraint)  {
         try {
-            solver.strAddConstraint(constraint.getCoefficientsAsString(), LpSolve.EQ, constraint.getSum());
+            int numberOfVariablesInConstraint = constraint.getVariables().length;
+            double[] coefficientsForConstraint = new double[numberOfVariablesInConstraint];
+            for (int i = 0; i < numberOfVariablesInConstraint; i++) {
+                coefficientsForConstraint[i] = 1;
+            }
+            solver.addConstraintex(numberOfVariablesInConstraint, coefficientsForConstraint, constraint.getVariables(), LpSolve.EQ, constraint.getSum());
         } catch (LpSolveException e) {
             e.printStackTrace();
         }
