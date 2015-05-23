@@ -7,6 +7,14 @@ import sudoku.utils.TimeFormatter;
 public class TimeFormatterTests {
 
     @Test
+    public void formatOneSecond(){
+
+        long millis = 1000;
+        String format = TimeFormatter.format(millis);
+        Assert.assertEquals("00:00:00:01:0000", format);
+    }
+
+    @Test
     public void formatOneHour(){
 
         long millis = 3600000;

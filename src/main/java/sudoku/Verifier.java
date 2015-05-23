@@ -43,9 +43,7 @@ public class Verifier {
                     sum += matrix[i][j][k];
                 }
 
-                if (sum > 1) {
-                    return false;
-                } if (full && sum != 1) {
+                if (sum > 1 || (full && sum != 1)) {
                     return false;
                 }
             }
@@ -62,9 +60,7 @@ public class Verifier {
                     sum += matrix[i][k][j];
                 }
 
-                if (sum > 1) {
-                    return false;
-                } else if (full && sum != 1) {
+                if (sum > 1 || (full && sum != 1)) {
                     return false;
                 }
             }
@@ -91,9 +87,7 @@ public class Verifier {
                     sum += matrix[i+2][j+1][k];
                     sum += matrix[i+2][j+2][k];
 
-                    if (sum > 1 ) {
-                        return false;
-                    } else if (full && sum != 1) {
+                    if (sum > 1 || (full && sum != 1)) {
                         return false;
                     }
                 }
@@ -112,9 +106,7 @@ public class Verifier {
                     sum += matrix[k][i][j];
                 }
 
-                if (sum > 1) {
-                    return false;
-                } else if (full && sum != 1) {
+                if (sum > 1 || (full && sum != 1)) {
                     return false;
                 }
             }

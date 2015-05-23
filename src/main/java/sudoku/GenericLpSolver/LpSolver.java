@@ -15,6 +15,7 @@ public class LpSolver {
                 objectiveFunc[i] = i;
             }
 
+            solver.setOutputfile("");
             solver.setObjFn(objectiveFunc);
             solver.setMinim();
             constraints.stream().forEach(c -> addConstraint(solver, c));

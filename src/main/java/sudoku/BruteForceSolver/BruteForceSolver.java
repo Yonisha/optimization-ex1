@@ -6,9 +6,11 @@ import sudoku.utils.InputBoardParser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BruteForceSolver implements ISudokuSolver {
+    double[][][] matrix = new double[9][9][9];
+
+
     @Override
     public List<double[]> Solve(List<String> inputBoards) {
         List<double[]> results = new ArrayList<>();
@@ -25,14 +27,15 @@ public class BruteForceSolver implements ISudokuSolver {
         InputBoardParser inputBoardParser = new InputBoardParser();
         List<Integer> parsedBoard = inputBoardParser.parse(inputBoard);
 
-        List<Cell> cells = parsedBoard.stream().map(i -> new Cell(i == 0 ? 0 : i, i != 0)).collect(Collectors.toList());
+        fillCellRecursive(parsedBoard, 0);
 
-        fillCellRecursive(cells, 0);
-
+        // TODO dup code - we already have that code somewhere.
         List<Double> result = new ArrayList<>();
-        for (int i = 0; i < cells.size(); i++) {
-            for (int j = 1; j <= 9; j++) {
-                result.add(cells.get(i).getValue() == j ? 1d : 0);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                for (int k = 1; k <= 9; k++) {
+                    result.add(parsedBoard.get(i * 9 + j) == k ? 1d : 0);
+                }
             }
         }
 
@@ -41,48 +44,36 @@ public class BruteForceSolver implements ISudokuSolver {
         return doubles;
     }
 
-    private boolean fillCellRecursive(List<Cell> input, int currentIndex){
-        if (currentIndex == input.size()) {
+    private boolean fillCellRecursive(List<Integer> parsedBoard, int currentIndex){
+        if (currentIndex == 81) {
             return false;
         }
 
-        Cell cell = input.get(currentIndex);
-        if (cell.isFixed()) {
-            return fillCellRecursive(input, currentIndex + 1);
+        if (parsedBoard.get(currentIndex) != 0) {
+            matrix[currentIndex / 9][currentIndex % 9][parsedBoard.get(currentIndex) - 1] = 1;
+            return fillCellRecursive(parsedBoard, currentIndex + 1);
         } else {
-            for (int i = 1; i <= 9; i++) {
-                cell.setValue(i);
+            for (int i = 0; i < 9; i++) {
+                matrix[currentIndex / 9][currentIndex % 9][i] = 1;
 
-                double[][][] doubles = convertTo3DMatrix(input);
-                boolean valid = Verifier.verifyResult(doubles, false);
+                boolean valid = Verifier.verifyResult(matrix, false);
                 if (valid) {
-                    if (Verifier.verifyResult(doubles, true)) {
+                    if (Verifier.verifyResult(matrix, true)) {
+                        System.out.println("Done");
                         return true;
                     }
 
-                    boolean success = fillCellRecursive(input, currentIndex + 1);
+                    boolean success = fillCellRecursive(parsedBoard, currentIndex + 1);
 
                     if (success) {
                         return true;
                     }
                 }
+
+                matrix[currentIndex / 9][currentIndex % 9][i] = 0;
             }
         }
 
-        input.get(currentIndex).initValue();
         return false;
-    }
-
-    private double[][][] convertTo3DMatrix(List<Cell> cells) {
-        double[][][] matrix = new double[9][9][9];
-
-        for (int i = 0; i < cells.size(); i++) {
-            int value = cells.get(i).getValue();
-            if (value != 0) {
-                matrix[i / 9][i % 9][value - 1] = 1;
-            }
-        }
-
-        return matrix;
     }
 }
