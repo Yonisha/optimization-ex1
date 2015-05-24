@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BruteForceSolver implements ISudokuSolver {
-    double[][][] matrix = new double[9][9][9];
+    double[][][] matrix;
 
 
     @Override
@@ -23,7 +23,7 @@ public class BruteForceSolver implements ISudokuSolver {
     }
 
     public double[] solve(String inputBoard){
-
+        matrix = new double[9][9][9];
         InputBoardParser inputBoardParser = new InputBoardParser();
         List<Integer> parsedBoard = inputBoardParser.parse(inputBoard);
 
@@ -33,8 +33,8 @@ public class BruteForceSolver implements ISudokuSolver {
         List<Double> result = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                for (int k = 1; k <= 9; k++) {
-                    result.add(parsedBoard.get(i * 9 + j) == k ? 1d : 0);
+                for (int k = 0; k < 9; k++) {
+                    result.add(matrix[i][j][k]);
                 }
             }
         }
@@ -59,7 +59,7 @@ public class BruteForceSolver implements ISudokuSolver {
                 boolean valid = Verifier.verifyResult(matrix, false);
                 if (valid) {
                     if (Verifier.verifyResult(matrix, true)) {
-                        System.out.println("Done");
+
                         return true;
                     }
 
