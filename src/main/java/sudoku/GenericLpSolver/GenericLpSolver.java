@@ -27,6 +27,11 @@ public class GenericLpSolver implements ISudokuSolver {
         List<Constraint> constraintsWithInput = new ArrayList<>(genericConstraints);
         constraintsWithInput.addAll(findVariablesForInputConstraints(inputBoard));
         double[] solution = lpSolver.Solve(729, constraintsWithInput);
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (int i = 0; i < 729; i++) {
+//            stringBuilder.append(solution[i] + " ");
+//        }
+//        System.out.println(stringBuilder.toString());
         return solution;
     }
 

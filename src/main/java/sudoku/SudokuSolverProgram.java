@@ -82,33 +82,28 @@ public class SudokuSolverProgram {
 
         List<String> inputLines = new ArrayList<>();
 //
-//        BufferedReader bufferedReader = null;
-//        String currentLine = "";
-//        try {
-//            bufferedReader = new BufferedReader(new FileReader(inputFileName));
-//            while ((currentLine = bufferedReader.readLine()) != null) {
-//                inputLines.add(currentLine);
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (bufferedReader != null)
-//                    bufferedReader.close();
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
+        BufferedReader bufferedReader = null;
+        String currentLine = "";
+        try {
+            bufferedReader = new BufferedReader(new FileReader(inputFileName));
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                inputLines.add(currentLine);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
 
-        String inputLevel1 = "000075400000000008080190000300001060000000034000068170204000603900000020530200000";
-        inputLines.add(inputLevel1);
-//
-//        String input1Level6 = "000075400000000008080190000300001060000000034000068170204000603900000020530200000";
-//        inputLines.add(input1Level6);
-//        String input2Level6 = "300000000050703008000028070700000043000000000003904105400300800100040000968000200";
-//        inputLines.add(input2Level6);
+//        String input= "000075400000000008080190000300001060000000034000068170204000603900000020530200000";
+//        inputLines.add(input);
 
         return inputLines;
     }

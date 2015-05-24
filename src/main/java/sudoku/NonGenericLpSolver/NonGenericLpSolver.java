@@ -30,6 +30,11 @@ public class NonGenericLpSolver implements ISudokuSolver {
         List<Constraint> constraints = genericConstraintsCreator.create(inputBoard);
 
         double[] solution = lpSolver.Solve(numberOfVariables, constraints);
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (int i = 0; i < solution.length; i++) {
+//            stringBuilder.append(solution[i] + " ");
+//        }
+//        System.out.println(stringBuilder.toString());
         double[] solutionWithInput = addInputToSolution(solution, inputBoard);
         return solutionWithInput;
     }
